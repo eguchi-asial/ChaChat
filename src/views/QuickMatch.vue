@@ -4,14 +4,24 @@
       <div class="messages">
         <div class="message" v-for="(chat, index) in dispChats" :key="index">
           <div class="name">▼{{ chat.name }}</div>
-          <div class="text">{{ chat.chat }}</div>
+          <div class="text">{{ chat.body }}</div>
         </div>
       </div>
       <div class="input-area">
-        <input class="name" type="text" placeholder="表示名" maxlength="20" />
+        <input
+          v-model.trim="name"
+          class="name"
+          type="text"
+          placeholder="表示名(15文字)"
+          maxlength="15"
+        />
         <div class="message">
-          <textarea maxlength="120" placeholder="120文字まで" />
-          <button>送信</button>
+          <textarea
+            v-model.trim="body"
+            maxlength="120"
+            placeholder="120文字まで"
+          />
+          <button @click="sendChat" :disabled="body.length === 0">送信</button>
         </div>
       </div>
     </div>
@@ -20,18 +30,34 @@
 
 <script lang="ts">
 import { Vue } from 'vue-class-component';
+import Chat from '@/types/chat';
 
 export default class QuickMatch extends Vue {
-  chats: any = [
-    { name: '名前A', chat: 'メッセージメッセージメッセージ' },
-    { name: null, chat: 'メッセージ' },
-    { name: null, chat: 'メッセージメッセージ' }
+  /** 表示名 */
+  name: string | null = null;
+  /** チャット投稿メッセージ */
+  body = '';
+
+  chats: Chat[] = [
+    { name: '名前A', body: 'メッセージメッセージメッセージ' },
+    { name: null, body: 'メッセージ' },
+    { name: null, body: 'メッセージメッセージ' }
   ];
 
+  /**
+   * 表示用にChat配列を整形
+   */
   get dispChats() {
-    return this.chats.map((chat: any) => {
+    return this.chats.map((chat: Chat) => {
       chat.name = chat.name ?? '名無しさん';
       return chat;
+    });
+  }
+
+  sendChat() {
+    this.chats.push({
+      name: this.name ?? null,
+      body: this.body
     });
   }
 }
@@ -49,6 +75,7 @@ export default class QuickMatch extends Vue {
       height: 65%;
       margin: 10px;
       border: solid 1px;
+      overflow: scroll;
 
       .message {
         text-align: left;
