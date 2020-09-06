@@ -1,6 +1,16 @@
 <template>
   <div class="home">
-    <img alt="Vue logo" src="../assets/logo.png" />
+    <div class="buttons">
+      <div class="button quickmatch">
+        <button @click="moveQuickMatch">クイックマッチ</button>
+      </div>
+      <div class="button search">
+        <button>部屋を検索する</button>
+      </div>
+      <div class="button create">
+        <button>部屋をつくる</button>
+      </div>
+    </div>
     <HelloWorld msg="Welcome to Your Vue.js + TypeScript App" />
   </div>
 </template>
@@ -14,5 +24,37 @@ import HelloWorld from "@/components/HelloWorld.vue"; // @ is an alias to /src
     HelloWorld
   }
 })
-export default class Home extends Vue {}
+export default class Home extends Vue {
+  moveQuickMatch() {
+    this.$router.push({
+      name: "QuickMatch"
+    });
+  }
+}
 </script>
+<style scoped lang="scss">
+.home {
+  width: 100vw;
+  height: 100vh;
+
+  .buttons {
+    width: 100%;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+
+    .button {
+      button {
+        min-width: 300px;
+        height: auto;
+        font-size: 18px;
+        font-weight: bold;
+        border-radius: 10px;
+        box-shadow: 0px 0px 10px rgba(0, 0, 0, 0.5);
+        margin: 25px;
+        padding: 10px;
+      }
+    }
+  }
+}
+</style>
