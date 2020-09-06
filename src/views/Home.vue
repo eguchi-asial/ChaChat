@@ -49,8 +49,6 @@ export default class Home extends Vue {
         height: auto;
         font-size: 18px;
         font-weight: bold;
-        border-radius: 10px;
-        box-shadow: 0px 0px 10px rgba(0, 0, 0, 0.5);
         margin: 25px;
         padding: 10px;
       }
