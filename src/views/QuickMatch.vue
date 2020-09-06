@@ -2,11 +2,9 @@
   <div class="quickmatch">
     <div class="chat-items">
       <div class="messages">
-        <div class="message">
-          <div class="name">▼名無し</div>
-          <div class="text">
-            メッセージメッセージメッセージメッセージメッセージメッセージ
-          </div>
+        <div class="message" v-for="(chat, index) in dispChats" :key="index">
+          <div class="name">▼{{ chat.name }}</div>
+          <div class="text">{{ chat.chat }}</div>
         </div>
       </div>
       <div class="input-area">
@@ -21,9 +19,22 @@
 </template>
 
 <script lang="ts">
-import { Vue } from "vue-class-component";
+import { Vue } from 'vue-class-component';
 
-export default class QuickMatch extends Vue {}
+export default class QuickMatch extends Vue {
+  chats: any = [
+    { name: '名前A', chat: 'メッセージメッセージメッセージ' },
+    { name: null, chat: 'メッセージ' },
+    { name: null, chat: 'メッセージメッセージ' }
+  ];
+
+  get dispChats() {
+    return this.chats.map((chat: any) => {
+      chat.name = chat.name ?? '名無しさん';
+      return chat;
+    });
+  }
+}
 </script>
 <style scoped lang="scss">
 .quickmatch {
