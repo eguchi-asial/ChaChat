@@ -5,10 +5,10 @@
         <button @click="moveQuickMatch">クイックマッチ</button>
       </div>
       <div class="button search">
-        <button>部屋を検索する</button>
+        <button disabled>部屋を検索する</button>
       </div>
       <div class="button create">
-        <button>部屋をつくる</button>
+        <button disabled>部屋をつくる</button>
       </div>
     </div>
     <HelloWorld msg="Welcome to Your Vue.js + TypeScript App" />
