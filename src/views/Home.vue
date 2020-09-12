@@ -11,7 +11,6 @@
         <button disabled>部屋をつくる</button>
       </div>
     </div>
-    <HelloWorld msg="Welcome to Your Vue.js + TypeScript App" />
   </div>
 </template>
 

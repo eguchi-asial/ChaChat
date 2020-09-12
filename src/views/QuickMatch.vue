@@ -46,6 +46,7 @@ export default class QuickMatch extends Vue {
   }
 
   sendChat(inputData: Chat) {
+    // TODO API send
     this.chats.push({
       name: inputData.name ? inputData.name.trim() ?? null : null,
       body: inputData.body.trim()
