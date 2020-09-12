@@ -1,14 +1,17 @@
 <template>
   <div class="messages">
-    <div class="message" v-for="(chat, index) in dispChats" :key="index">
-      <div class="name">▼{{ chat.name }}</div>
-      <div class="text">{{ chat.body }}</div>
-    </div>
+    <chat-message
+      v-for="(chat, index) in dispChats"
+      :key="index"
+      :name="chat.name"
+      :body="chat.body"
+    />
   </div>
 </template>
 <script lang="ts">
 import Chat from '@/types/chat';
 import { computed, defineComponent } from 'vue';
+import ChatMessage from '@/components/ChatMessage.vue';
 
 type Props = {
   chats: Chat[];
@@ -20,6 +23,9 @@ export default defineComponent({
       type: [],
       default: []
     }
+  },
+  components: {
+    ChatMessage
   },
   setup(props: Props) {
     /**
