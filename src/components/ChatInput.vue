@@ -13,16 +13,18 @@
         maxlength="120"
         placeholder="120文字まで"
       />
-      <button @click="emitSend" :disabled="bodyModel.length === 0">
-        送信
-      </button>
+      <button @click="emitSend" :disabled="bodyModel.length === 0">送信</button>
     </div>
   </div>
 </template>
 <script lang="ts">
-import { Options, Vue } from 'vue-class-component';
+import { computed, defineComponent, SetupContext } from 'vue';
 
-@Options({
+type Props = {
+  name: string;
+  body: string;
+};
+export default defineComponent({
   props: {
     name: {
       type: String,
@@ -34,35 +36,33 @@ import { Options, Vue } from 'vue-class-component';
       required: false,
       default: ''
     }
-  }
-})
-export default class ChatInput extends Vue {
-  name?: string;
-  body?: string;
+  },
+  name: 'ChatInput',
+  setup(props: Props, context: SetupContext) {
+    const nameModel = computed({
+      get: () => props.name,
+      set: changedValue => context.emit('change-name', changedValue)
+    });
 
-  get nameModel(): string | null {
-    return this.name ?? null;
-  }
+    const bodyModel = computed({
+      get: () => props.body,
+      set: changedValue => context.emit('change-body', changedValue)
+    });
 
-  set nameModel(changedValue: string | null) {
-    // 警告は出るけど正常動作 vue3のbugかも https://github.com/lukaszflorczak/vue-agile/issues/185
-    this.$emit('change-name', changedValue);
-  }
+    const emitSend = (): void => {
+      context.emit('send-chat', {
+        name: nameModel.value,
+        body: bodyModel.value
+      });
+    };
 
-  get bodyModel(): string | null {
-    return this.body ?? null;
+    return {
+      nameModel,
+      bodyModel,
+      emitSend
+    };
   }
-
-  set bodyModel(changedValue: string | null) {
-    // 警告は出るけど正常動作 vue3のbugかも https://github.com/lukaszflorczak/vue-agile/issues/185
-    this.$emit('change-body', changedValue);
-  }
-
-  emitSend() {
-    // 警告は出るけど正常動作 vue3のbugかも https://github.com/lukaszflorczak/vue-agile/issues/185
-    this.$emit('send-chat', { name: this.nameModel, body: this.bodyModel });
-  }
-}
+});
 </script>
 <style scoped lang="scss">
 .input-area {

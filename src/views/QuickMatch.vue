@@ -14,45 +14,54 @@
 </template>
 
 <script lang="ts">
-import { Options, Vue } from 'vue-class-component';
+import { defineComponent, reactive, Ref, ref } from 'vue';
 import Chat from '@/types/chat';
 import ChatMessages from '@/components/ChatMessages.vue';
 import ChatInput from '@/components/ChatInput.vue';
 
-@Options({
+export default defineComponent({
+  name: 'QuickMatch',
   components: {
     ChatMessages,
     ChatInput
-  }
-})
-export default class QuickMatch extends Vue {
-  /** 表示名 */
-  name: string | null = null;
-  /** チャット投稿メッセージ */
-  body = '';
-  /** TODO from Web Socket API */
-  chats: Chat[] = [
-    { name: '名前A', body: 'メッセージメッセージメッセージ' },
-    { name: null, body: 'メッセージ' },
-    { name: null, body: 'メッセージメッセージ' }
-  ];
+  },
+  setup() {
+    /** 表示名 */
+    const nameRef: Ref<string> = ref('');
+    /** チャット投稿メッセージ */
+    const bodyRef: Ref<string> = ref('');
+    /** TODO from Web Socket API */
+    const chatsReact: Chat[] = reactive<Chat[]>([
+      { name: '名前A', body: 'メッセージメッセージメッセージ' },
+      { name: null, body: 'メッセージ' },
+      { name: null, body: 'メッセージメッセージ' }
+    ]);
 
-  changedName(changedName: string) {
-    this.name = changedName;
-  }
+    const changedName = (changedName: string): void => {
+      nameRef.value = changedName;
+    };
 
-  changedBody(changedBody: string) {
-    this.body = changedBody;
-  }
+    const changedBody = (changedBody: string): void => {
+      bodyRef.value = changedBody;
+    };
 
-  sendChat(inputData: Chat) {
-    // TODO API send
-    this.chats.push({
-      name: inputData.name ? inputData.name.trim() ?? null : null,
-      body: inputData.body.trim()
-    });
+    const sendChat = (inputData: Chat): void => {
+      // TODO API send
+      chatsReact.push({
+        name: inputData.name ? inputData.name.trim() ?? null : null,
+        body: inputData.body.trim()
+      });
+    };
+    return {
+      chats: chatsReact,
+      name: nameRef,
+      body: bodyRef,
+      changedName,
+      changedBody,
+      sendChat
+    };
   }
-}
+});
 </script>
 <style scoped lang="scss">
 .quickmatch {

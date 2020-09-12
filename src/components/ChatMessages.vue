@@ -7,27 +7,36 @@
   </div>
 </template>
 <script lang="ts">
-import { Options, Vue } from 'vue-class-component';
 import Chat from '@/types/chat';
+import { computed, defineComponent } from 'vue';
 
-@Options({
+type Props = {
+  chats: Chat[];
+};
+export default defineComponent({
+  name: 'ChatMessages',
   props: {
-    chats: Array
-  }
-})
-export default class ChatMessages extends Vue {
-  chats: Chat[] = [];
-
-  /**
-   * 表示用にChat配列を整形
-   */
-  get dispChats() {
-    return this.chats.map((chat: Chat) => {
-      chat.name = chat.name ?? '名無しさん';
-      return chat;
+    chats: {
+      type: [],
+      default: []
+    }
+  },
+  setup(props: Props) {
+    /**
+     * 表示用にChat配列を整形
+     */
+    const dispChats = computed(() => {
+      return props.chats.map((chat: Chat) => {
+        chat.name = chat.name ?? '名無しさん';
+        return chat;
+      });
     });
+
+    return {
+      dispChats
+    };
   }
-}
+});
 </script>
 <style scoped lang="scss">
 .messages {

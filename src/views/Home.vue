@@ -15,21 +15,22 @@
 </template>
 
 <script lang="ts">
-import { Options, Vue } from 'vue-class-component';
-import HelloWorld from '@/components/HelloWorld.vue'; // @ is an alias to /src
+import { defineComponent } from 'vue';
+import router from '../router';
 
-@Options({
-  components: {
-    HelloWorld
+export default defineComponent({
+  name: 'Home',
+  setup() {
+    const moveQuickMatch = () => {
+      router.push({
+        name: 'QuickMatch'
+      });
+    };
+    return {
+      moveQuickMatch
+    };
   }
-})
-export default class Home extends Vue {
-  moveQuickMatch() {
-    this.$router.push({
-      name: 'QuickMatch'
-    });
-  }
-}
+});
 </script>
 <style scoped lang="scss">
 .home {

@@ -1,5 +1,16 @@
 # chachat
 
+## OverView
+
+```
+Vue3 x TS x WebSocket を使った簡易 Chat WEB アプリケーションです。
+
+vue-class-component デコレータを使って class 構文で書いてましたが、以下の RFC リジェクトの理由のため書き直す
+https://github.com/vuejs/rfcs/pull/17#issuecomment-494242121
+
+=> 9/12 Com@ositionAPI に書き換えて、vue-class-component は削除した
+```
+
 ## Project setup
 
 ```
@@ -39,13 +50,3 @@ npm run lint
 ### Customize configuration
 
 See [Configuration Reference](https://cli.vuejs.org/config/).
-
-### OverView
-
-Vue3 x TS x WebSocket を使った簡易 Chat WEB アプリケーションです。
-
-vue-class-component デコレータを使って class 構文で書いてましたが、以下の RFC リジェクトの理由のため書き直す
-https://github.com/vuejs/rfcs/pull/17#issuecomment-494242121
-
-ただまだ今後正式リリース後に vue-class-component がどうなるか見ておきたいので、残しておく。
-他のリポジトリで書き直す。
