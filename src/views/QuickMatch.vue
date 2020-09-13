@@ -10,14 +10,18 @@
         @send-chat="sendChat"
       />
     </div>
+    <div v-show="dispNewMessageInfo" class="information">
+      <div class="new-message">⬇︎</div>
+    </div>
   </div>
 </template>
 
 <script lang="ts">
-import { defineComponent, reactive, Ref, ref } from 'vue';
+import { defineComponent, reactive, Ref, ref, watch } from 'vue';
 import Chat from '@/types/chat';
 import ChatMessages from '@/components/ChatMessages.vue';
 import ChatInput from '@/components/ChatInput.vue';
+import { sleep } from '@/lib/util';
 
 export default defineComponent({
   name: 'QuickMatch',
@@ -26,6 +30,11 @@ export default defineComponent({
     ChatInput
   },
   setup() {
+    const dispNewMessageInfoRef: Ref<boolean> = ref(false);
+    watch(dispNewMessageInfoRef, async () => {
+      await sleep(5);
+      dispNewMessageInfoRef.value = false;
+    });
     /** 表示名 */
     const nameRef: Ref<string> = ref('');
     /** チャット投稿メッセージ */
@@ -36,6 +45,9 @@ export default defineComponent({
       { name: null, body: 'メッセージ' },
       { name: null, body: 'メッセージメッセージ' }
     ]);
+    watch(chatsReact, () => {
+      dispNewMessageInfoRef.value = true;
+    });
 
     const changedName = (changedName: string): void => {
       nameRef.value = changedName;
@@ -58,7 +70,8 @@ export default defineComponent({
       body: bodyRef,
       changedName,
       changedBody,
-      sendChat
+      sendChat,
+      dispNewMessageInfo: dispNewMessageInfoRef
     };
   }
 });
@@ -71,6 +84,23 @@ export default defineComponent({
   .chat-items {
     width: 100%;
     height: 100%;
+  }
+
+  .information {
+    position: absolute;
+    bottom: 30%;
+    right: 5%;
+
+    .new-message {
+      height: 30px;
+      width: 30px;
+      background: red;
+      color: white;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      border-radius: 50%;
+    }
   }
 }
 </style>
