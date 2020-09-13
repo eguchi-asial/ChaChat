@@ -5,6 +5,7 @@
       :key="index"
       :name="chat.name"
       :body="chat.body"
+      :postedAt="chat.postedAt"
     />
   </div>
 </template>

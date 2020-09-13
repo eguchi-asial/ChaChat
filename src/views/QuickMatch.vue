@@ -17,11 +17,12 @@
 </template>
 
 <script lang="ts">
-import { defineComponent, reactive, Ref, ref, watch } from 'vue';
+import { computed, defineComponent, reactive, Ref, ref, watch } from 'vue';
 import Chat from '@/types/chat';
 import ChatMessages from '@/components/ChatMessages.vue';
 import ChatInput from '@/components/ChatInput.vue';
 import { sleep } from '@/lib/util';
+import moment from 'moment';
 
 export default defineComponent({
   name: 'QuickMatch',
@@ -31,6 +32,7 @@ export default defineComponent({
   },
   setup() {
     const dispNewMessageInfoRef: Ref<boolean> = ref(false);
+    // 活性化されたお知らせは5秒後にフラグを下げる
     watch(dispNewMessageInfoRef, async () => {
       await sleep(5);
       dispNewMessageInfoRef.value = false;
@@ -41,12 +43,33 @@ export default defineComponent({
     const bodyRef: Ref<string> = ref('');
     /** TODO from Web Socket API */
     const chatsReact: Chat[] = reactive<Chat[]>([
-      { name: '名前A', body: 'メッセージメッセージメッセージ' },
+      {
+        name: '名前A',
+        body: 'メッセージメッセージメッセージ',
+        postedAt: '2020-09-13 14:22:22'
+      },
       { name: null, body: 'メッセージ' },
       { name: null, body: 'メッセージメッセージ' }
     ]);
+    // 表示用chats
+    const dispChats = computed({
+      get: () =>
+        chatsReact.map(chat => {
+          chat.postedAt = chat.postedAt
+            ? moment(chat.postedAt, 'YYYY-MM-DD h:m:s').format('HH:MM:SS')
+            : undefined;
+          return chat;
+        }),
+      set: () => {
+        //
+      }
+    });
+    // チャットメッセージに追加があったらお知らせを活性化する
+    // TODO websocketのpostmessageを実装したらこのwathcは消す
     watch(chatsReact, () => {
-      dispNewMessageInfoRef.value = true;
+      if (dispNewMessageInfoRef.value === false) {
+        dispNewMessageInfoRef.value = true;
+      }
     });
 
     const changedName = (changedName: string): void => {
@@ -65,7 +88,7 @@ export default defineComponent({
       });
     };
     return {
-      chats: chatsReact,
+      chats: dispChats,
       name: nameRef,
       body: bodyRef,
       changedName,
