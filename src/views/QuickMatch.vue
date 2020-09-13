@@ -17,7 +17,15 @@
 </template>
 
 <script lang="ts">
-import { computed, defineComponent, reactive, Ref, ref, watch } from 'vue';
+import {
+  computed,
+  defineComponent,
+  onMounted,
+  reactive,
+  Ref,
+  ref,
+  watch
+} from 'vue';
 import Chat from '@/types/chat';
 import ChatMessages from '@/components/ChatMessages.vue';
 import ChatInput from '@/components/ChatInput.vue';
@@ -42,24 +50,26 @@ export default defineComponent({
     /** チャット投稿メッセージ */
     const bodyRef: Ref<string> = ref('');
     /** TODO from Web Socket API */
-    const chatsReact: Chat[] = reactive<Chat[]>([
-      {
+    const chatsReact: Chat[] = reactive<Chat[]>([]);
+    onMounted(() => {
+      chatsReact.push({
         name: '名前A',
         body: 'メッセージメッセージメッセージ',
         postId: 'A12345',
-        postedAt: '2020-09-13 14:22:22'
-      },
-      {
+        postedAt: '2020-09-13 08:22:22'
+      });
+      chatsReact.push({
         name: null,
         body: 'メッセージ',
         postId: 'B12345'
-      },
-      {
+      });
+      chatsReact.push({
         name: null,
         body: 'メッセージメッセージ',
-        postId: 'C12345'
-      }
-    ]);
+        postId: 'C12345',
+        postedAt: '2020-09-13 14:23:01'
+      });
+    });
     // 表示用chats
     const dispChats = computed({
       get: () =>
