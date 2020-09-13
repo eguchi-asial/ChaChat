@@ -2,7 +2,7 @@
   <div class="message">
     <div class="name">
       ▼{{ dispName }}
-      <small>（ID: 12345）</small>
+      <small v-show="dispPostId">（ID: {{ dispPostId }}）</small>
       <small v-show="dispPostedAt">{{ dispPostedAt }}</small>
     </div>
     <div class="text">{{ dispBody }}</div>
@@ -14,6 +14,7 @@ import { defineComponent } from 'vue';
 type Props = {
   name: string;
   body: string;
+  postId: string;
   postedAt?: string;
 };
 export default defineComponent({
@@ -28,6 +29,11 @@ export default defineComponent({
       type: String,
       required: true
     },
+    postId: {
+      type: String,
+      required: false,
+      default: undefined
+    },
     postedAt: {
       type: String,
       required: false,
@@ -38,7 +44,8 @@ export default defineComponent({
     return {
       dispName: props.name,
       dispBody: props.body,
-      dispPostedAt: props.postedAt
+      dispPostedAt: props.postedAt,
+      dispPostId: props.postId
     };
   }
 });

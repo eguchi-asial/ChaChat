@@ -5,6 +5,7 @@
       :key="index"
       :name="chat.name"
       :body="chat.body"
+      :postId="chat.postId"
       :postedAt="chat.postedAt"
     />
   </div>

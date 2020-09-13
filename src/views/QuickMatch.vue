@@ -46,10 +46,19 @@ export default defineComponent({
       {
         name: '名前A',
         body: 'メッセージメッセージメッセージ',
+        postId: 'A12345',
         postedAt: '2020-09-13 14:22:22'
       },
-      { name: null, body: 'メッセージ' },
-      { name: null, body: 'メッセージメッセージ' }
+      {
+        name: null,
+        body: 'メッセージ',
+        postId: 'B12345'
+      },
+      {
+        name: null,
+        body: 'メッセージメッセージ',
+        postId: 'C12345'
+      }
     ]);
     // 表示用chats
     const dispChats = computed({
@@ -82,6 +91,7 @@ export default defineComponent({
 
     const sendChat = (inputData: Chat): void => {
       // TODO API send
+      // 実際は、postのみを行う。pushはonPostMessage(WebSocket)で行うので
       chatsReact.push({
         name: inputData.name ? inputData.name.trim() ?? null : null,
         body: inputData.body.trim()
