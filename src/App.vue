@@ -9,6 +9,11 @@
 </template>
 
 <style lang="scss">
+a {
+  &:hover {
+    color: cornflowerblue !important;
+  }
+}
 #app {
   font-family: Avenir, Helvetica, Arial, sans-serif;
   -webkit-font-smoothing: antialiased;
@@ -17,5 +22,16 @@
   color: #2c3e50;
   width: 100%;
   height: 100%;
+
+  #nav {
+    position: sticky;
+    top: 0;
+    height: 5%;
+    background: #000;
+
+    a {
+      color: #fff;
+    }
+  }
 }
 </style>
