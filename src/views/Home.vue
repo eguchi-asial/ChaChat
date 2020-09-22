@@ -45,7 +45,7 @@ export default defineComponent({
 
     .button {
       button {
-        min-width: 300px;
+        min-width: 250px;
         height: auto;
         font-size: 18px;
         font-weight: bold;

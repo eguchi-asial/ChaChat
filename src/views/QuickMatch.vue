@@ -31,6 +31,7 @@ import ChatMessages from '@/components/ChatMessages.vue';
 import ChatInput from '@/components/ChatInput.vue';
 import { sleep } from '@/lib/util';
 import moment from 'moment';
+import io from 'socket.io-client';
 
 export default defineComponent({
   name: 'QuickMatch',
@@ -49,26 +50,40 @@ export default defineComponent({
     const nameRef: Ref<string> = ref('');
     /** チャット投稿メッセージ */
     const bodyRef: Ref<string> = ref('');
+    const myPostId: Ref<string> = ref('');
     /** TODO from Web Socket API */
     const chatsReact: Chat[] = reactive<Chat[]>([]);
+    const socket = reactive<SocketIOClient.Socket>(io('ws://localhost:3000'));
     onMounted(() => {
-      chatsReact.push({
-        name: '名前A',
-        body: 'メッセージメッセージメッセージ',
-        postId: 'A12345',
-        postedAt: '2020-09-13 08:22:22'
+      socket.on('connect', () => {
+        console.log('connected');
+        socket.on('receive-message', (msg: Chat) => {
+          console.log('receive-message', msg);
+          chatsReact.push({
+            name: msg.name,
+            body: msg.body,
+            postId: msg.postId,
+            postedAt: msg.postedAt
+          });
+        });
       });
-      chatsReact.push({
-        name: null,
-        body: 'メッセージ',
-        postId: 'B12345'
-      });
-      chatsReact.push({
-        name: null,
-        body: 'メッセージメッセージ',
-        postId: 'C12345',
-        postedAt: '2020-09-13 14:23:01'
-      });
+      // chatsReact.push({
+      //   name: '名前A',
+      //   body: 'メッセージメッセージメッセージ',
+      //   postId: 'A12345',
+      //   postedAt: '2020-09-13 08:22:22'
+      // });
+      // chatsReact.push({
+      //   name: null,
+      //   body: 'メッセージ',
+      //   postId: 'B12345'
+      // });
+      // chatsReact.push({
+      //   name: null,
+      //   body: 'メッセージメッセージ',
+      //   postId: 'C12345',
+      //   postedAt: '2020-09-13 14:23:01'
+      // });
     });
     // 表示用chats
     const dispChats = computed({
@@ -100,11 +115,10 @@ export default defineComponent({
     };
 
     const sendChat = (inputData: Chat): void => {
-      // TODO API send
-      // 実際は、postのみを行う。pushはonPostMessage(WebSocket)で行うので
-      chatsReact.push({
-        name: inputData.name ? inputData.name.trim() ?? null : null,
-        body: inputData.body.trim()
+      socket.emit('post-message', {
+        ...inputData,
+        postId: myPostId.value ?? null,
+        postedAt: moment().format('YYYY-MM-DD H:m:s')
       });
     };
     return {
