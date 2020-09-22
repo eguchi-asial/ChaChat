@@ -57,8 +57,8 @@ export default defineComponent({
     onMounted(() => {
       socket.on('connect', () => {
         console.log('connected');
+        /* サーバからpush受信したメッセージ */
         socket.on('receive-message', (msg: Chat) => {
-          console.log('receive-message', msg);
           chatsReact.push({
             name: msg.name,
             body: msg.body,

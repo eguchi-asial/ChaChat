@@ -3,6 +3,7 @@
     <chat-message
       v-for="(chat, index) in dispChats"
       :key="index"
+      :no="index + 1"
       :name="chat.name"
       :body="chat.body"
       :postId="chat.postId"

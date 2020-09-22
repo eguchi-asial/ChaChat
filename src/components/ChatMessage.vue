@@ -1,8 +1,8 @@
 <template>
   <div class="message">
     <div class="name">
-      ▼{{ dispName }}
-      <small v-show="dispPostId">（ID: {{ dispPostId }}）</small>
+      {{ dispNo }}: {{ dispName }}
+      <small v-show="dispPostId">ID: [{{ dispPostId }}]</small>
       <small v-show="dispPostedAt">{{ dispPostedAt }}</small>
     </div>
     <div class="text">{{ dispBody }}</div>
@@ -12,6 +12,7 @@
 import { defineComponent } from 'vue';
 
 type Props = {
+  no: number;
   name: string;
   body: string;
   postId: string;
@@ -20,6 +21,11 @@ type Props = {
 export default defineComponent({
   name: 'ChatMessage',
   props: {
+    no: {
+      type: Number,
+      required: true,
+      default: 0
+    },
     name: {
       type: String,
       required: false,
@@ -42,10 +48,11 @@ export default defineComponent({
   },
   setup(props: Props) {
     return {
+      dispNo: props.no,
       dispName: props.name,
       dispBody: props.body,
       dispPostedAt: props.postedAt,
-      dispPostId: props.postId
+      dispPostId: props.postId.split('-')[0]
     };
   }
 });
