@@ -2,8 +2,8 @@
   <div class="message">
     <div class="name">
       {{ dispNo }}: {{ dispName }}
-      <small v-show="dispPostId">ID: [{{ dispPostId }}]</small>
-      <small v-show="dispPostedAt">{{ dispPostedAt }}</small>
+      <small v-show="dispPostId">ID: {{ dispPostId }}</small>
+      <small v-show="dispPostedAt">( {{ dispPostedAt }} )</small>
     </div>
     <div class="text">{{ dispBody }}</div>
   </div>
@@ -61,5 +61,9 @@ export default defineComponent({
 .message {
   text-align: left;
   padding: 20px;
+
+  small {
+    font-size: 10px;
+  }
 }
 </style>

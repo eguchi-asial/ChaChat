@@ -51,7 +51,6 @@ export default defineComponent({
     /** チャット投稿メッセージ */
     const bodyRef: Ref<string> = ref('');
     const myPostId: Ref<string> = ref('');
-    /** TODO from Web Socket API */
     const chatsReact: Chat[] = reactive<Chat[]>([]);
     const socket = reactive<SocketIOClient.Socket>(io('ws://localhost:3000'));
     onMounted(() => {
@@ -67,30 +66,13 @@ export default defineComponent({
           });
         });
       });
-      // chatsReact.push({
-      //   name: '名前A',
-      //   body: 'メッセージメッセージメッセージ',
-      //   postId: 'A12345',
-      //   postedAt: '2020-09-13 08:22:22'
-      // });
-      // chatsReact.push({
-      //   name: null,
-      //   body: 'メッセージ',
-      //   postId: 'B12345'
-      // });
-      // chatsReact.push({
-      //   name: null,
-      //   body: 'メッセージメッセージ',
-      //   postId: 'C12345',
-      //   postedAt: '2020-09-13 14:23:01'
-      // });
     });
     // 表示用chats
     const dispChats = computed({
       get: () =>
         chatsReact.map(chat => {
           chat.postedAt = chat.postedAt
-            ? moment(chat.postedAt, 'YYYY-MM-DD h:m:s').format('HH:MM:SS')
+            ? moment(chat.postedAt, 'YYYY-MM-DD h:m:s').format('HH:mm:ss')
             : undefined;
           return chat;
         }),
@@ -118,7 +100,7 @@ export default defineComponent({
       socket.emit('post-message', {
         ...inputData,
         postId: myPostId.value ?? null,
-        postedAt: moment().format('YYYY-MM-DD H:m:s')
+        postedAt: moment().format('YYYY-MM-DD H:mm:ss')
       });
     };
     return {
