@@ -1,6 +1,7 @@
 <template>
   <div class="quickmatch">
     <div class="chat-items">
+      <div>現在: {{ roomLength }}人</div>
       <chat-messages :chats="chats" />
       <chat-input
         :name="name"
@@ -50,7 +51,8 @@ export default defineComponent({
     const nameRef: Ref<string> = ref('');
     /** チャット投稿メッセージ */
     const bodyRef: Ref<string> = ref('');
-    const myPostId: Ref<string> = ref('');
+    const myPostIdRef: Ref<string> = ref('');
+    const roomLengthRef: Ref<number> = ref(0);
     const chatsReact: Chat[] = reactive<Chat[]>([]);
     const socket = reactive<SocketIOClient.Socket>(io('ws://localhost:3000'));
     onMounted(() => {
@@ -60,10 +62,15 @@ export default defineComponent({
         socket.on('receive-message', (msg: Chat) => {
           chatsReact.push({
             name: msg.name,
+            type: msg.type,
             body: msg.body,
             postId: msg.postId,
             postedAt: msg.postedAt
           });
+        });
+        socket.on('room-length', (roomLength: number) => {
+          console.log('roomLength', roomLength);
+          roomLengthRef.value = roomLength;
         });
       });
     });
@@ -99,7 +106,7 @@ export default defineComponent({
     const sendChat = (inputData: Chat): void => {
       socket.emit('post-message', {
         ...inputData,
-        postId: myPostId.value ?? null,
+        postId: myPostIdRef.value ?? null,
         postedAt: moment().format('YYYY-MM-DD H:mm:ss')
       });
     };
@@ -110,7 +117,8 @@ export default defineComponent({
       changedName,
       changedBody,
       sendChat,
-      dispNewMessageInfo: dispNewMessageInfoRef
+      dispNewMessageInfo: dispNewMessageInfoRef,
+      roomLength: roomLengthRef
     };
   }
 });

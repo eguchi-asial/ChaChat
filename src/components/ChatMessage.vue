@@ -1,5 +1,5 @@
 <template>
-  <div class="message">
+  <div class="message" :class="{ system: dispType === 'system' }">
     <div class="name">
       {{ dispNo }}: {{ dispName }}
       <small v-show="dispPostId">ID: {{ dispPostId }}</small>
@@ -14,6 +14,7 @@ import { defineComponent } from 'vue';
 type Props = {
   no: number;
   name: string;
+  type: string;
   body: string;
   postId: string;
   postedAt?: string;
@@ -30,6 +31,11 @@ export default defineComponent({
       type: String,
       required: false,
       default: '名無しさん'
+    },
+    type: {
+      type: String,
+      required: false,
+      default: 'chat'
     },
     body: {
       type: String,
@@ -50,6 +56,7 @@ export default defineComponent({
     return {
       dispNo: props.no,
       dispName: props.name,
+      dispType: props.type,
       dispBody: props.body,
       dispPostedAt: props.postedAt,
       dispPostId: props.postId.split('-')[0]
@@ -61,6 +68,10 @@ export default defineComponent({
 .message {
   text-align: left;
   padding: 20px;
+
+  &.system {
+    color: #aaa;
+  }
 
   small {
     font-size: 10px;
