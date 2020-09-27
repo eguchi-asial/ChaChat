@@ -1,7 +1,7 @@
 <template>
   <div class="quickmatch">
     <div class="chat-items">
-      <div>現在: {{ roomLength }}人</div>
+      <div class="room-length">現在: {{ roomLength }}人</div>
       <chat-messages :chats="chats" />
       <chat-input
         :name="name"
@@ -57,7 +57,6 @@ export default defineComponent({
     const socket = reactive<SocketIOClient.Socket>(io('ws://localhost:3000'));
     onMounted(() => {
       socket.on('connect', () => {
-        console.log('connected');
         /* サーバからpush受信したメッセージ */
         socket.on('receive-message', (msg: Chat) => {
           chatsReact.push({
@@ -69,7 +68,6 @@ export default defineComponent({
           });
         });
         socket.on('room-length', (roomLength: number) => {
-          console.log('roomLength', roomLength);
           roomLengthRef.value = roomLength;
         });
       });
@@ -123,6 +121,11 @@ export default defineComponent({
   }
 });
 </script>
+<style deep lang="scss">
+#app {
+  overflow: hidden !important;
+}
+</style>
 <style scoped lang="scss">
 .quickmatch {
   width: 100%;

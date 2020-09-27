@@ -26,8 +26,8 @@ a {
   #nav {
     position: sticky;
     top: 0;
-    height: 5%;
     background: #000;
+    height: 25px;
 
     a {
       color: #fff;
