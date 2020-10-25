@@ -54,7 +54,9 @@ export default defineComponent({
     const myPostIdRef: Ref<string> = ref('');
     const roomLengthRef: Ref<number> = ref(0);
     const chatsReact: Chat[] = reactive<Chat[]>([]);
-    const socket = reactive<SocketIOClient.Socket>(io('ws://localhost:3000'));
+    const socket = reactive<SocketIOClient.Socket>(
+      io(`ws://${process.env.VUE_APP_CHAT_WS}`)
+    );
     onMounted(() => {
       socket.on('connect', () => {
         /* サーバからpush受信したメッセージ */
