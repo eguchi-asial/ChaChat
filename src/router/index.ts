@@ -1,23 +1,23 @@
-import { createRouter, createWebHistory, RouteRecordRaw } from "vue-router";
-import Home from "../views/Home.vue";
-import QuickMatch from "../views/QuickMatch.vue";
+import { createRouter, createWebHistory, RouteRecordRaw } from 'vue-router';
+import Home from '../views/Home.vue';
+import QuickMatch from '../views/QuickMatch.vue';
 
 const routes: Array<RouteRecordRaw> = [
   {
-    path: "/",
-    name: "Home",
+    path: '/',
+    name: 'Home',
     component: Home
   },
   {
-    path: "/quickmatch",
-    name: "QuickMatch",
+    path: '/quickmatch',
+    name: 'QuickMatch',
     component: QuickMatch
   },
   {
-    path: "/about",
-    name: "About",
+    path: '/about',
+    name: 'About',
     component: () =>
-      import(/* webpackChunkName: "about" */ "../views/About.vue")
+      import(/* webpackChunkName: 'about' */ '../views/About.vue')
   }
 ];
 

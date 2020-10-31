@@ -55,7 +55,7 @@ export default defineComponent({
     const roomLengthRef: Ref<number> = ref(0);
     const chatsReact: Chat[] = reactive<Chat[]>([]);
     const socket = reactive<SocketIOClient.Socket>(
-      io(`ws://${process.env.VUE_APP_CHAT_WS}`)
+      io(`wss://${process.env.VUE_APP_CHAT_WS}`)
     );
     onMounted(() => {
       socket.on('connect', () => {
