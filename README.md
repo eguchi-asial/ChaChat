@@ -82,4 +82,5 @@ local で確認したい場合は
 
 ```
 prod branch に push すれば自動で Netlify の方で build->deploy する
+netlifyのenvに.envの値の設定を忘れないこと
 ```
