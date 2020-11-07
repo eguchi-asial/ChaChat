@@ -51,7 +51,6 @@ export default defineComponent({
     const nameRef: Ref<string> = ref('');
     /** チャット投稿メッセージ */
     const bodyRef: Ref<string> = ref('');
-    const myPostIdRef: Ref<string> = ref('');
     const roomLengthRef: Ref<number> = ref(0);
     const chatsReact: Chat[] = reactive<Chat[]>([]);
     const socket = reactive<SocketIOClient.Socket>(
@@ -61,6 +60,7 @@ export default defineComponent({
       socket.on('connect', () => {
         /* サーバからpush受信したメッセージ */
         socket.on('receive-message', (msg: Chat) => {
+          console.log('receive-message');
           chatsReact.push({
             name: msg.name,
             type: msg.type,
@@ -70,6 +70,7 @@ export default defineComponent({
           });
         });
         socket.on('room-length', (roomLength: number) => {
+          console.log('room-length');
           roomLengthRef.value = roomLength;
         });
       });
@@ -106,7 +107,8 @@ export default defineComponent({
     const sendChat = (inputData: Chat): void => {
       socket.emit('post-message', {
         ...inputData,
-        postId: myPostIdRef.value ?? null,
+        // clientからは特定できなくて良いのでnull
+        postId: null,
         postedAt: moment().format('YYYY-MM-DD H:mm:ss')
       });
     };
