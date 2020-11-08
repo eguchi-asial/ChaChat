@@ -60,7 +60,6 @@ export default defineComponent({
       socket.on('connect', () => {
         /* サーバからpush受信したメッセージ */
         socket.on('receive-message', (msg: Chat) => {
-          console.log('receive-message');
           chatsReact.push({
             name: msg.name,
             type: msg.type,
@@ -70,7 +69,6 @@ export default defineComponent({
           });
         });
         socket.on('room-length', (roomLength: number) => {
-          console.log('room-length');
           roomLengthRef.value = roomLength;
         });
       });
