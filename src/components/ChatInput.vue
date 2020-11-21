@@ -15,10 +15,13 @@
       />
       <button @click="emitSend" :disabled="bodyModel.length === 0">送信</button>
     </div>
+    <div class="image">
+      <input @change="changeImageFile" accept="image/*" type="file" />
+    </div>
   </div>
 </template>
 <script lang="ts">
-import { computed, defineComponent, SetupContext } from 'vue';
+import { computed, defineComponent, reactive, ref, SetupContext } from 'vue';
 
 type Props = {
   name: string;
@@ -56,10 +59,22 @@ export default defineComponent({
       });
     };
 
+    interface HTMLElementEvent<T extends HTMLElement> extends Event {
+      target: T;
+    }
+
+    const changeImageFile = (event: HTMLElementEvent<HTMLInputElement>) => {
+      const files = event?.target?.files || [];
+      if (files.length === 0) return;
+      const imageFile = files[0];
+      console.log(imageFile);
+    };
+
     return {
       nameModel,
       bodyModel,
-      emitSend
+      emitSend,
+      changeImageFile
     };
   }
 });

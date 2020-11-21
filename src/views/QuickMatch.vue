@@ -67,6 +67,7 @@ export default defineComponent({
             postId: msg.postId,
             postedAt: msg.postedAt
           });
+          dispNewMessageInfoRef.value = true;
         });
         socket.on('room-length', (roomLength: number) => {
           roomLengthRef.value = roomLength;
@@ -84,13 +85,6 @@ export default defineComponent({
         }),
       set: () => {
         //
-      }
-    });
-    // チャットメッセージに追加があったらお知らせを活性化する
-    // TODO websocketのpostmessageを実装したらこのwathcは消す
-    watch(chatsReact, () => {
-      if (dispNewMessageInfoRef.value === false) {
-        dispNewMessageInfoRef.value = true;
       }
     });
 
