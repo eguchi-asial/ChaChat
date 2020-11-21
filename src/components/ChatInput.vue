@@ -17,11 +17,13 @@
     </div>
     <div class="image">
       <input @change="changeImageFile" accept="image/*" type="file" />
+      <img v-if="sendImageFileRef" :src="sendImageFileRef" />
     </div>
   </div>
 </template>
 <script lang="ts">
-import { computed, defineComponent, reactive, ref, SetupContext } from 'vue';
+import { computed, defineComponent, ref, SetupContext } from 'vue';
+import Jimp from 'jimp';
 
 type Props = {
   name: string;
@@ -52,6 +54,8 @@ export default defineComponent({
       set: changedValue => context.emit('change-body', changedValue)
     });
 
+    const sendImageFileRef = ref<string>('');
+
     const emitSend = (): void => {
       context.emit('send-chat', {
         name: nameModel.value,
@@ -63,16 +67,39 @@ export default defineComponent({
       target: T;
     }
 
-    const changeImageFile = (event: HTMLElementEvent<HTMLInputElement>) => {
+    const readFileBase64 = (file: File): Promise<string> => {
+      return new Promise((resolve, reject) => {
+        try {
+          const fileReader = new FileReader();
+          fileReader.onloadend = () => {
+            Jimp.read(fileReader.result).then(lenna => {
+              lenna.resize(256, 256).getBase64(Jimp.MIME_PNG, (err, src) => {
+                resolve(src);
+              });
+            });
+          };
+          fileReader.readAsDataURL(file);
+        } catch (e) {
+          reject(e);
+        }
+      });
+    };
+
+    const changeImageFile = async (
+      event: HTMLElementEvent<HTMLInputElement>
+    ) => {
       const files = event?.target?.files || [];
       if (files.length === 0) return;
       const imageFile = files[0];
       console.log(imageFile);
+      const imageBase64: string = await readFileBase64(imageFile);
+      sendImageFileRef.value = imageBase64;
     };
 
     return {
       nameModel,
       bodyModel,
+      sendImageFileRef,
       emitSend,
       changeImageFile
     };
