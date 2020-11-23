@@ -5,11 +5,14 @@
       <small v-show="dispPostId">ID: {{ dispPostId }}</small>
       <small v-show="dispPostedAt">( {{ dispPostedAt }} )</small>
     </div>
-    <div class="text">{{ dispBody }}</div>
+    <div v-if="dispMessageType" class="text">{{ dispBody }}</div>
+    <div v-if="type === 'image'" class="file">
+      <img :src="dispBody" />
+    </div>
   </div>
 </template>
 <script lang="ts">
-import { defineComponent } from 'vue';
+import { computed, defineComponent } from 'vue';
 
 type Props = {
   no: number;
@@ -53,13 +56,22 @@ export default defineComponent({
     }
   },
   setup(props: Props) {
+    const dispMessageType = computed({
+      get: () => {
+        return props.type === 'system' || props.type === 'chat';
+      },
+      set: () => {
+        //
+      }
+    });
     return {
       dispNo: props.no,
       dispName: props.name,
       dispType: props.type,
       dispBody: props.body,
       dispPostedAt: props.postedAt,
-      dispPostId: props.postId.split('-')[0]
+      dispPostId: props.postId.split('-')[0],
+      dispMessageType
     };
   }
 });

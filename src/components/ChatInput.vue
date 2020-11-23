@@ -1,12 +1,19 @@
 <template>
   <div class="input-area">
-    <input
-      v-model.trim="nameModel"
-      class="name"
-      type="text"
-      placeholder="表示名(15文字)"
-      maxlength="15"
-    />
+    <div class="upper">
+      <input
+        v-model.trim="nameModel"
+        class="name"
+        type="text"
+        placeholder="表示名(15文字)"
+        maxlength="15"
+      />
+      <img
+        class="image-file"
+        @click="showSelectImageInput"
+        src="@/assets/add_photo.svg"
+      />
+    </div>
     <div class="message">
       <textarea
         v-model.trim="bodyModel"
@@ -15,10 +22,20 @@
       />
       <button @click="emitSend" :disabled="bodyModel.length === 0">送信</button>
     </div>
-    <div class="image">
-      <input @change="changeImageFile" accept="image/*" type="file" />
-      <img v-if="sendImageFileRef" :src="sendImageFileRef" />
+    <div v-if="isShowPreviewRef" class="preview">
+      <div class="modal">
+        <img v-if="sendImageFileRef" :src="sendImageFileRef" class="image" />
+        <button @click="emitImage" class="send-image-button">送信</button>
+      </div>
     </div>
+  </div>
+  <div class="dummy">
+    <input
+      ref="dummyImageInputRef"
+      @change="changeImageFile"
+      accept="image/*"
+      type="file"
+    />
   </div>
 </template>
 <script lang="ts">
@@ -43,6 +60,7 @@ export default defineComponent({
     }
   },
   name: 'ChatInput',
+  emits: ['change-name', 'change-body', 'send-chat', 'send-image'],
   setup(props: Props, context: SetupContext) {
     const nameModel = computed({
       get: () => props.name,
@@ -55,12 +73,34 @@ export default defineComponent({
     });
 
     const sendImageFileRef = ref<string>('');
+    const sendImageFileName = ref<string>('');
+
+    const isShowPreviewRef = ref<boolean>(false);
 
     const emitSend = (): void => {
       context.emit('send-chat', {
         name: nameModel.value,
-        body: bodyModel.value
+        body: bodyModel.value,
+        type: 'chat'
       });
+      bodyModel.value = '';
+    };
+
+    const emitImage = (): void => {
+      context.emit('send-image', {
+        name: nameModel.value,
+        body: sendImageFileRef.value,
+        type: 'image'
+      });
+      isShowPreviewRef.value = false;
+      sendImageFileRef.value = '';
+      sendImageFileName.value = '';
+    };
+
+    const dummyImageInputRef = ref<HTMLInputElement>();
+
+    const showSelectImageInput = (): void => {
+      dummyImageInputRef.value?.click();
     };
 
     interface HTMLElementEvent<T extends HTMLElement> extends Event {
@@ -73,7 +113,7 @@ export default defineComponent({
           const fileReader = new FileReader();
           fileReader.onloadend = () => {
             Jimp.read(fileReader.result).then(lenna => {
-              lenna.resize(256, 256).getBase64(Jimp.MIME_PNG, (err, src) => {
+              lenna.resize(200, 200).getBase64(Jimp.MIME_PNG, (err, src) => {
                 resolve(src);
               });
             });
@@ -91,17 +131,23 @@ export default defineComponent({
       const files = event?.target?.files || [];
       if (files.length === 0) return;
       const imageFile = files[0];
-      console.log(imageFile);
       const imageBase64: string = await readFileBase64(imageFile);
+      sendImageFileName.value = imageFile.name;
       sendImageFileRef.value = imageBase64;
+      isShowPreviewRef.value = true;
     };
 
     return {
       nameModel,
       bodyModel,
       sendImageFileRef,
+      sendImageFileName,
+      isShowPreviewRef,
+      dummyImageInputRef,
       emitSend,
-      changeImageFile
+      emitImage,
+      changeImageFile,
+      showSelectImageInput
     };
   }
 });
@@ -111,10 +157,23 @@ export default defineComponent({
   margin: 10px;
   text-align: left;
 
-  .name {
-    min-width: 28%;
-    height: auto;
+  .upper {
+    display: flex;
+    justify-content: left;
+    align-items: center;
+    min-height: 25px;
     margin-bottom: 5px;
+
+    .name {
+      min-width: 28%;
+      height: auto;
+      min-height: 25px;
+    }
+
+    .image-file {
+      min-height: 25px;
+      margin-left: 5px;
+    }
   }
 
   .message {
@@ -134,5 +193,43 @@ export default defineComponent({
       height: 25%;
     }
   }
+}
+
+.preview {
+  position: absolute;
+  left: 0;
+  top: 0;
+  width: 100%;
+  height: 100%;
+
+  .modal {
+    width: 100%;
+    height: 100%;
+    background: rgba($color: #000, $alpha: 0.5);
+
+    .image {
+      position: absolute;
+      // resize imageが200x200なので、半分の100pxずらす
+      left: calc(50% - 100px);
+      top: calc(50% - 100px);
+    }
+
+    .send-image-button {
+      position: absolute;
+      left: calc(50% - 50px);
+      top: calc(50% + 120px);
+      min-width: 100px;
+      min-height: 30px;
+      font-size: 16px;
+      font-weight: bold;
+      background: #000;
+      color: #fff;
+      border-color: #fff;
+    }
+  }
+}
+
+.dummy {
+  display: none;
 }
 </style>

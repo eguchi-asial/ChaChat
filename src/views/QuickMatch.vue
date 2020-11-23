@@ -9,6 +9,7 @@
         @change-name="changedName"
         @change-body="changedBody"
         @send-chat="sendChat"
+        @send-image="sendImage"
       />
     </div>
     <div v-show="dispNewMessageInfo" class="information">
@@ -104,6 +105,15 @@ export default defineComponent({
         postedAt: moment().format('YYYY-MM-DD H:mm:ss')
       });
     };
+    const sendImage = (inputData: Chat): void => {
+      socket.emit('post-message', {
+        ...inputData,
+        // clientからは特定できなくて良いのでnull
+        postId: null,
+        postedAt: moment().format('YYYY-MM-DD H:mm:ss')
+      });
+    };
+
     return {
       chats: dispChats,
       name: nameRef,
@@ -111,6 +121,7 @@ export default defineComponent({
       changedName,
       changedBody,
       sendChat,
+      sendImage,
       dispNewMessageInfo: dispNewMessageInfoRef,
       roomLength: roomLengthRef
     };
