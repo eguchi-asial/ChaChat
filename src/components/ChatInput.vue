@@ -111,11 +111,16 @@ export default defineComponent({
       return new Promise((resolve, reject) => {
         try {
           const fileReader = new FileReader();
-          fileReader.onloadend = () => {
-            Jimp.read(fileReader.result).then(lenna => {
-              lenna.resize(200, 200).getBase64(Jimp.MIME_PNG, (err, src) => {
+          fileReader.onloadend = async () => {
+            const lenna: Jimp = await Jimp.read(fileReader.result);
+            console.log(lenna);
+            const resizedImage: Jimp = await lenna.resize(200, Jimp.AUTO);
+            resizedImage.getBase64(Jimp.MIME_PNG, (err, src) => {
+              if (err) {
+                reject(err);
+              } else {
                 resolve(src);
-              });
+              }
             });
           };
           fileReader.readAsDataURL(file);
