@@ -2,7 +2,7 @@
   <div class="quickmatch">
     <div class="chat-items">
       <div class="room-length">雑談部屋({{ roomLength }}人)</div>
-      <chat-messages :chats="chats" />
+      <chat-messages :chats="chats" :is-auto-scroll="isAutoScroll" />
       <chat-input
         :name="name"
         :body="body"
@@ -43,10 +43,15 @@ export default defineComponent({
   },
   setup() {
     const dispNewMessageInfoRef: Ref<boolean> = ref(false);
+    const isAutoScrollRef: Ref<boolean> = ref(false);
     // 活性化されたお知らせは5秒後にフラグを下げる
     watch(dispNewMessageInfoRef, async () => {
       await sleep(5);
       dispNewMessageInfoRef.value = false;
+    });
+    watch(isAutoScrollRef, async () => {
+      await sleep(3);
+      isAutoScrollRef.value = false;
     });
     /** 表示名 */
     const nameRef: Ref<string> = ref('');
@@ -73,6 +78,8 @@ export default defineComponent({
             postedAt: msg.postedAt
           });
           dispNewMessageInfoRef.value = true;
+          // auto scroll
+          isAutoScrollRef.value = true;
         });
         socket.on('room-length', (roomLength: number) => {
           roomLengthRef.value = roomLength;
@@ -127,6 +134,7 @@ export default defineComponent({
       sendChat,
       sendImage,
       dispNewMessageInfo: dispNewMessageInfoRef,
+      isAutoScroll: isAutoScrollRef,
       roomLength: roomLengthRef
     };
   }
