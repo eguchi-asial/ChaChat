@@ -1,7 +1,7 @@
 <template>
-  <div class="quickmatch">
+  <div class="mychatroom">
     <div class="chat-items">
-      <div class="room-length">雑談部屋({{ roomLength }}人)</div>
+      <div class="room-length">{{ myRoomName }}の部屋({{ roomLength }}人)</div>
       <chat-messages :chats="chats" />
       <chat-input
         :name="name"
@@ -34,14 +34,22 @@ import ChatInput from '@/components/ChatInput.vue';
 import { sleep } from '@/lib/util';
 import moment from 'moment';
 import io from 'socket.io-client';
+import router from '@/router';
 
 export default defineComponent({
-  name: 'QuickMatch',
+  name: 'MyChatRoom',
   components: {
     ChatMessages,
     ChatInput
   },
   setup() {
+    let roomName: string | string[] =
+      router.currentRoute.value.params['roomName'];
+    if (!roomName) {
+      const prompted = prompt('部屋の名前を決めてください');
+      if (!prompted) router.back();
+      roomName = prompted || '雑談';
+    }
     const dispNewMessageInfoRef: Ref<boolean> = ref(false);
     // 活性化されたお知らせは5秒後にフラグを下げる
     watch(dispNewMessageInfoRef, async () => {
@@ -57,7 +65,7 @@ export default defineComponent({
     const socket = reactive<SocketIOClient.Socket>(
       io(
         `
-        ${process.env.VUE_APP_CHAT_PROTCOL}://${process.env.VUE_APP_CHAT_WS}?room=雑談
+        ${process.env.VUE_APP_CHAT_PROTCOL}://${process.env.VUE_APP_CHAT_WS}?room=${roomName}
       `.trim()
       )
     );
@@ -119,6 +127,7 @@ export default defineComponent({
     };
 
     return {
+      myRoomName: roomName,
       chats: dispChats,
       name: nameRef,
       body: bodyRef,
@@ -138,7 +147,7 @@ export default defineComponent({
 }
 </style>
 <style scoped lang="scss">
-.quickmatch {
+.mychatroom {
   width: 100%;
   height: 100%;
 
