@@ -5,6 +5,10 @@
       <router-link to="/about">About</router-link>
     </div>
     <router-view />
+    <div id="footer">
+      <router-link to="/">Home</router-link> |
+      <router-link to="/about">About</router-link>
+    </div>
   </div>
 </template>
 
@@ -26,6 +30,17 @@ a {
   #nav {
     position: sticky;
     top: 0;
+    background: #000;
+    height: 25px;
+
+    a {
+      color: #fff;
+    }
+  }
+
+  #footer {
+    position: sticky;
+    bottom: 0;
     background: #000;
     height: 25px;
 

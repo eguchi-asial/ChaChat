@@ -149,7 +149,7 @@ export default defineComponent({
 <style scoped lang="scss">
 .mychatroom {
   width: 100%;
-  height: 100%;
+  height: calc(100% - 25px);
 
   .chat-items {
     width: 100%;

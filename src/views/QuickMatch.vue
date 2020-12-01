@@ -148,7 +148,7 @@ export default defineComponent({
 <style scoped lang="scss">
 .quickmatch {
   width: 100%;
-  height: 100%;
+  height: calc(100% - 25px);
 
   .chat-items {
     width: 100%;

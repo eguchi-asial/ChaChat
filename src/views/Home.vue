@@ -45,7 +45,7 @@ export default defineComponent({
 <style scoped lang="scss">
 .home {
   width: 100vw;
-  height: 100vh;
+  height: calc(100% - 25px);
 
   .buttons {
     width: 100%;
