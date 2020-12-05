@@ -5,7 +5,7 @@
         <button @click="moveQuickMatch">クイックマッチ</button>
       </div>
       <div class="button search">
-        <button disabled>部屋を検索する</button>
+        <button @click="searchRooms">部屋を検索する</button>
       </div>
       <div class="button create">
         <button @click="createRoom">部屋をつくる</button>
@@ -26,6 +26,11 @@ export default defineComponent({
         name: 'QuickMatch'
       });
     };
+    const searchRooms = () => {
+      router.push({
+        name: 'SearchChatRooms'
+      });
+    };
     const createRoom = () => {
       const roomName = prompt('部屋の名前を決めてください');
       if (roomName) {
@@ -36,6 +41,7 @@ export default defineComponent({
       }
     };
     return {
+      searchRooms,
       moveQuickMatch,
       createRoom
     };

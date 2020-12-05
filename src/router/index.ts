@@ -2,6 +2,7 @@ import { createRouter, createWebHistory, RouteRecordRaw } from 'vue-router';
 import Home from '../views/Home.vue';
 import QuickMatch from '../views/QuickMatch.vue';
 import MyChatRoom from '../views/MyChatRoom.vue';
+import SearchChatRooms from '../views/SearchChatRooms.vue';
 
 const routes: Array<RouteRecordRaw> = [
   {
@@ -13,6 +14,11 @@ const routes: Array<RouteRecordRaw> = [
     path: '/quickmatch',
     name: 'QuickMatch',
     component: QuickMatch
+  },
+  {
+    path: '/search',
+    name: 'SearchChatRooms',
+    component: SearchChatRooms
   },
   {
     path: '/chat-room',
