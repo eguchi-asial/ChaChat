@@ -1,7 +1,7 @@
 <template>
   <div class="quickmatch">
     <div class="chat-items">
-      <div class="room-length">雑談部屋({{ roomLength }}人)</div>
+      <h2 class="room-length">雑談ルーム({{ roomLength }}人)</h2>
       <chat-messages :chats="chats" :is-auto-scroll="isAutoScroll" />
       <chat-input
         :name="name"

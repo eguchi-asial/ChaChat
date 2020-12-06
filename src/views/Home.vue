@@ -5,10 +5,10 @@
         <button @click="moveQuickMatch">クイックマッチ</button>
       </div>
       <div class="button search">
-        <button @click="searchRooms">部屋を検索する</button>
+        <button @click="searchRooms">チャットルームを検索する</button>
       </div>
       <div class="button create">
-        <button @click="createRoom">部屋をつくる</button>
+        <button @click="createRoom">チャットルームをつくる</button>
       </div>
     </div>
   </div>
@@ -32,7 +32,7 @@ export default defineComponent({
       });
     };
     const createRoom = () => {
-      const roomName = prompt('部屋の名前を決めてください');
+      const roomName = prompt('チャットルームの名前を決めてください');
       if (roomName) {
         router.push({
           name: 'MyChatRoom',

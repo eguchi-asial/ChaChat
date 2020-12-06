@@ -8,6 +8,7 @@
     <div id="footer">
       <router-link to="/">Home</router-link> |
       <router-link to="/about">About</router-link>
+      <small class="copyright">Copyright ©︎ 2020 Yu</small>
     </div>
   </div>
 </template>
@@ -46,6 +47,10 @@ a {
 
     a {
       color: #fff;
+    }
+
+    .copyright {
+      margin-left: 5px;
     }
   }
 }

@@ -1,21 +1,37 @@
 <template>
   <div class="searchchatrooms">
-    <div>search</div>
-    <ul>
-      <li
-        v-for="(roomName, index) in rooms"
-        :key="index"
-        @click="joinRoom(roomName)"
-      >
-        {{ roomName }}
-      </li>
-    </ul>
+    <h1>チャットルーム一覧</h1>
+    <div class="rooms">
+      <div v-if="rooms.length === 0">
+        <p>現在チャットルームはありません</p>
+        <p>以下からはじめましょう</p>
+        <div class="buttons">
+          <div class="button quickmatch">
+            <button @click="moveQuickMatch">クイックマッチ</button>
+          </div>
+          <div class="button create">
+            <button @click="createRoom">チャットルームをつくる</button>
+          </div>
+        </div>
+      </div>
+      <div v-else>
+        <ul>
+          <li
+            v-for="(roomName, index) in rooms"
+            :key="index"
+            @click="joinRoom(roomName)"
+          >
+            {{ roomName }}
+          </li>
+        </ul>
+      </div>
+    </div>
   </div>
 </template>
 
 <script lang="ts">
 import Chat from '@/types/chat';
-import { computed, defineComponent, onMounted, reactive, Ref, ref } from 'vue';
+import { defineComponent, onMounted, reactive, Ref, ref } from 'vue';
 import io from 'socket.io-client';
 import router from '@/router';
 
@@ -47,9 +63,25 @@ export default defineComponent({
         params: { roomName }
       });
     };
+    const moveQuickMatch = () => {
+      router.push({
+        name: 'QuickMatch'
+      });
+    };
+    const createRoom = () => {
+      const roomName = prompt('チャットルームの名前を決めてください');
+      if (roomName) {
+        router.push({
+          name: 'MyChatRoom',
+          params: { roomName }
+        });
+      }
+    };
     return {
       rooms: roomsRef,
-      joinRoom
+      joinRoom,
+      moveQuickMatch,
+      createRoom
     };
   }
 });
@@ -63,5 +95,23 @@ export default defineComponent({
 .searchchatrooms {
   width: 100%;
   height: calc(100% - 25px);
+
+  .buttons {
+    width: 100%;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+
+    .button {
+      button {
+        min-width: 250px;
+        height: auto;
+        font-size: 18px;
+        font-weight: bold;
+        margin: 25px;
+        padding: 10px;
+      }
+    }
+  }
 }
 </style>

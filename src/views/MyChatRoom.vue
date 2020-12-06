@@ -1,7 +1,7 @@
 <template>
   <div class="mychatroom">
     <div class="chat-items">
-      <div class="room-length">{{ myRoomName }}の部屋({{ roomLength }}人)</div>
+      <h2 class="room-length">{{ myRoomName }}ルーム({{ roomLength }}人)</h2>
       <chat-messages :chats="chats" />
       <chat-input
         :name="name"
@@ -46,7 +46,7 @@ export default defineComponent({
     let roomName: string | string[] =
       router.currentRoute.value.params['roomName'];
     if (!roomName) {
-      const prompted = prompt('部屋の名前を決めてください');
+      const prompted = prompt('チャットルームの名前を決めてください');
       if (!prompted) router.back();
       roomName = prompted || '雑談';
     }
