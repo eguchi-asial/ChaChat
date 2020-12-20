@@ -15,12 +15,16 @@
 </template>
 
 <script lang="ts">
-import { defineComponent } from 'vue';
+import { defineComponent, onMounted } from 'vue';
 import router from '../router';
+import { sendEvent } from '@/lib/analytics';
 
 export default defineComponent({
   name: 'Home',
   setup() {
+    onMounted(() => {
+      sendEvent('showHome');
+    });
     const moveQuickMatch = () => {
       router.push({
         name: 'QuickMatch'

@@ -35,6 +35,7 @@ import { sleep } from '@/lib/util';
 import moment from 'moment';
 import io from 'socket.io-client';
 import router from '@/router';
+import { sendEvent } from '@/lib/analytics';
 
 export default defineComponent({
   name: 'MyChatRoom',
@@ -70,6 +71,7 @@ export default defineComponent({
       )
     );
     onMounted(() => {
+      sendEvent('showMyChatRoom');
       socket.on('connect', () => {
         /* サーバからpush受信したメッセージ */
         socket.on('receive-message', (msg: Chat) => {
@@ -110,6 +112,7 @@ export default defineComponent({
     };
 
     const sendChat = (inputData: Chat): void => {
+      sendEvent('sendChat', inputData);
       socket.emit('post-message', {
         ...inputData,
         // clientからは特定できなくて良いのでnull

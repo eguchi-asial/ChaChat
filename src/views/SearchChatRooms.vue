@@ -34,6 +34,7 @@ import Chat from '@/types/chat';
 import { defineComponent, onMounted, reactive, Ref, ref } from 'vue';
 import io from 'socket.io-client';
 import router from '@/router';
+import { sendEvent } from '@/lib/analytics';
 
 export default defineComponent({
   name: 'SearchChatRooms',
@@ -48,6 +49,7 @@ export default defineComponent({
       )
     );
     onMounted(() => {
+      sendEvent('showSearchRooms');
       socket.on('connect', () => {
         /* サーバからpush受信したメッセージ */
         socket.on('receive-message', (msg: Chat) => {

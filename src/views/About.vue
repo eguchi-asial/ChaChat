@@ -5,11 +5,15 @@
   </div>
 </template>
 <script lang="ts">
-import { computed, defineComponent } from 'vue';
+import { sendEvent } from '@/lib/analytics';
+import { computed, defineComponent, onMounted } from 'vue';
 
 export default defineComponent({
   name: 'About',
   setup() {
+    onMounted(() => {
+      sendEvent('showAbout');
+    });
     const aboutMessage = computed({
       get: () => {
         return 'チャチャットはリアルタイム限定チャットです。<br>ログは残りません。<br>話したい時に話したい話題のみを話しましょう。<br>本システムは管理人個人の技術調査の一環です。<br>何か要望があれば問い合わせにお願いします。';

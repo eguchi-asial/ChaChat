@@ -34,6 +34,7 @@ import ChatInput from '@/components/ChatInput.vue';
 import { sleep } from '@/lib/util';
 import moment from 'moment';
 import io from 'socket.io-client';
+import { sendEvent } from '@/lib/analytics';
 
 export default defineComponent({
   name: 'QuickMatch',
@@ -67,6 +68,7 @@ export default defineComponent({
       )
     );
     onMounted(() => {
+      sendEvent('showQuickMatch');
       socket.on('connect', () => {
         /* サーバからpush受信したメッセージ */
         socket.on('receive-message', (msg: Chat) => {
@@ -109,6 +111,7 @@ export default defineComponent({
     };
 
     const sendChat = (inputData: Chat): void => {
+      sendEvent('sendChat', inputData);
       socket.emit('post-message', {
         ...inputData,
         // clientからは特定できなくて良いのでnull
