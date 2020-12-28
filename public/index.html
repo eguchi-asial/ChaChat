@@ -11,6 +11,8 @@
       content="<%= `
       default-src
         'self'
+        https://fonts.googleapis.com
+        https://fonts.gstatic.com
       ;
       img-src
         'self'
@@ -48,10 +50,13 @@
       style-src
         'self'
         'unsafe-inline'
+        https://fonts.googleapis.com
+        https://fonts.gstatic.com
       ;
     `.replace(/\n/g, '').replace(/\s{2,}/g, ' ').trim() %>">
     <link rel="icon" href="<%= BASE_URL %>favicon.ico">
     <title><%= htmlWebpackPlugin.options.title %> ~ すぐに始められるリアルタイムチャット ~</title>
+    <link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet">
     <style>
       html {
         width: 100%;

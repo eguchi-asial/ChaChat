@@ -8,11 +8,9 @@
         placeholder="表示名(15文字)"
         maxlength="15"
       />
-      <img
-        class="image-file"
-        @click="showSelectImageInput"
-        src="@/assets/add_photo.svg"
-      />
+      <span class="material-icons" @click="showSelectImageInput"
+        >add_photo_alternate</span
+      >
     </div>
     <div class="message">
       <textarea
@@ -173,11 +171,6 @@ export default defineComponent({
       min-width: 28%;
       height: auto;
       min-height: 25px;
-    }
-
-    .image-file {
-      min-height: 25px;
-      margin-left: 5px;
     }
   }
 
