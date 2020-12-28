@@ -29,7 +29,7 @@ a {
   #nav {
     position: sticky;
     top: 0;
-    background: #000;
+    background: $main-color;
     height: 25px;
 
     a {
