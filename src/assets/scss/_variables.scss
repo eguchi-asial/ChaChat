@@ -1,1 +1,23 @@
-$main-color: #e67e22;
+// props
+$header-height: 25px;
+$footer-height: 25px;
+
+// colors
+$header-bgcolor: #fff;
+$app-bgcolor: #f4f5f7;
+$decide: #2c3e50;
+$error: #c0392b;
+$warn: #f39c12;
+$wood: linear-gradient(
+  90deg,
+  rgba(208, 147, 82, 0.6),
+  rgba(192, 134, 70, 0.6) 60%,
+  rgba(208, 147, 82, 0.6)
+),
+repeating-radial-gradient(
+  ellipse at 60% 500%,
+  #c08646,
+  #c08646 0.2%,
+  #d09352 0.6%,
+  #d09352 1%
+);

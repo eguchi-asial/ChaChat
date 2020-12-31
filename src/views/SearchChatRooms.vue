@@ -1,16 +1,16 @@
 <template>
   <div class="searchchatrooms">
-    <h1>チャットルーム一覧</h1>
+    <h1>ディベート一覧</h1>
     <div class="rooms">
       <div v-if="rooms.length === 0">
         <p>現在チャットルームはありません</p>
         <p>以下からはじめましょう</p>
         <div class="buttons">
           <div class="button quickmatch">
-            <button @click="moveQuickMatch">クイックマッチ</button>
+            <button @click="moveQuickMatch">クイックディベート</button>
           </div>
           <div class="button create">
-            <button @click="createRoom">チャットルームをつくる</button>
+            <button @click="createRoom">ディベートルームを作る</button>
           </div>
         </div>
       </div>
@@ -96,7 +96,7 @@ export default defineComponent({
 <style scoped lang="scss">
 .searchchatrooms {
   width: 100%;
-  height: calc(100% - 25px);
+  height: calc(100% - #{$header-height});
 
   .buttons {
     width: 100%;

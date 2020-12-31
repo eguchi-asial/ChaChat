@@ -8,17 +8,25 @@
         placeholder="表示名(15文字)"
         maxlength="15"
       />
-      <span class="material-icons" @click="showSelectImageInput"
-        >add_photo_alternate</span
-      >
+      <span class="material-icons" @click="showSelectImageInput">
+        add_photo_alternate
+      </span>
     </div>
     <div class="message">
-      <textarea
-        v-model.trim="bodyModel"
-        maxlength="120"
-        placeholder="120文字まで"
-      />
-      <button @click="emitSend" :disabled="bodyModel.length === 0">送信</button>
+      <div
+        class="text-modal"
+        :class="{ placeholder: !bodyModel }"
+        @click="isShowTextModalRef = true"
+      >
+        {{ bodyModel || '120文字まで' }}
+      </div>
+      <span
+        class="material-icons"
+        @click="emitSend"
+        :disabled="bodyModel.length === 0"
+      >
+        send
+      </span>
     </div>
     <div v-if="isShowPreviewRef" class="preview">
       <div class="modal">
@@ -35,16 +43,24 @@
       type="file"
     />
   </div>
+  <input-text-modal
+    v-if="isShowTextModalRef"
+    class="input-text-modal"
+    :body="bodyModel"
+    @decide-body="decideBody"
+  />
 </template>
 <script lang="ts">
 import { computed, defineComponent, ref, SetupContext } from 'vue';
 import Jimp from 'jimp';
+import InputTextModal from './InputTextModal.vue';
 
 type Props = {
   name: string;
   body: string;
 };
 export default defineComponent({
+  components: { InputTextModal },
   props: {
     name: {
       type: String,
@@ -74,6 +90,13 @@ export default defineComponent({
     const sendImageFileName = ref<string>('');
 
     const isShowPreviewRef = ref<boolean>(false);
+
+    const isShowTextModalRef = ref<boolean>(false);
+
+    const decideBody = (val: string): void => {
+      isShowTextModalRef.value = false;
+      bodyModel.value = val;
+    };
 
     const emitSend = (): void => {
       context.emit('send-chat', {
@@ -146,7 +169,9 @@ export default defineComponent({
       sendImageFileRef,
       sendImageFileName,
       isShowPreviewRef,
+      isShowTextModalRef,
       dummyImageInputRef,
+      decideBody,
       emitSend,
       emitImage,
       changeImageFile,
@@ -171,24 +196,28 @@ export default defineComponent({
       min-width: 28%;
       height: auto;
       min-height: 25px;
+      background: $app-bgcolor;
+      border: solid 1px #aaa;
     }
   }
 
   .message {
     height: 25%;
     display: flex;
-    justify-content: center;
+    justify-content: left;
     align-items: center;
 
-    textarea {
-      width: 80%;
-      height: 25%;
-      margin-right: 10px;
-    }
+    .text-modal {
+      width: 100%;
+      height: 30px;
+      border: solid 1px;
+      padding: 2px;
+      white-space: pre-line;
+      overflow: scroll;
 
-    button {
-      width: 20%;
-      height: 25%;
+      &.placeholder {
+        color: #aaa;
+      }
     }
   }
 }

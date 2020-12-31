@@ -81,6 +81,10 @@ export default defineComponent({
   text-align: left;
   padding: 20px;
 
+  .text {
+    white-space: pre-line;
+  }
+
   &.system {
     color: #aaa;
   }

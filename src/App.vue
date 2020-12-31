@@ -10,12 +10,38 @@
     </div>
   </div>
 </template>
+<script lang="ts">
+import { defineComponent, onMounted } from 'vue';
+import { useStore } from 'vuex';
 
+export default defineComponent({
+  name: 'App',
+  setup() {
+    const store = useStore();
+    onMounted(async () => {
+      await store.dispatch('updateFeed');
+    });
+  }
+});
+</script>
 <style lang="scss">
+body {
+  font-family: 'Helvetica Neue', Arial, 'Hiragino Kaku Gothic ProN',
+    'Hiragino Sans', Meiryo, sans-serif;
+  background: $app-bgcolor;
+}
 a {
   &:hover {
     color: cornflowerblue !important;
   }
+}
+ul {
+  margin: 0;
+  padding: 0;
+}
+
+li {
+  list-style: none;
 }
 #app {
   font-family: Avenir, Helvetica, Arial, sans-serif;
@@ -29,11 +55,20 @@ a {
   #nav {
     position: sticky;
     top: 0;
-    background: $main-color;
-    height: 25px;
+    background: $header-bgcolor;
+    height: $header-height;
+    border-bottom: solid 2px #000;
 
     a {
-      color: #fff;
+      color: #999;
+
+      &:visited {
+        color: #000;
+      }
+
+      &:hover {
+        color: rgba(0, 0, 0, 0.5);
+      }
     }
   }
 
@@ -41,7 +76,7 @@ a {
     position: sticky;
     bottom: 0;
     background: #000;
-    height: 25px;
+    height: $footer-height;
 
     .copyright {
       color: #fff;
