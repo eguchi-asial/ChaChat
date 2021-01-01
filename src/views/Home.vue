@@ -81,10 +81,12 @@ $feed-padding: 10px;
         height: 100px;
 
         p {
-          height: 100%;
-          width: 100%;
+          font-weight: bold;
           font-size: 14px;
           text-align: left;
+          display: -webkit-box;
+          -webkit-box-orient: vertical;
+          -webkit-line-clamp: 3;
           overflow: hidden;
         }
       }
