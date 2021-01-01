@@ -176,15 +176,11 @@ export default defineComponent({
   }
 });
 </script>
-<style deep lang="scss">
-#app {
-  overflow: hidden !important;
-}
-</style>
 <style scoped lang="scss">
 .quickmatch {
   width: 100%;
-  height: calc(100% - #{$header-height});
+  height: calc(100% - #{$header-height + $footer-height});
+  overflow: scroll;
 
   .room-length {
     font-size: 18px;

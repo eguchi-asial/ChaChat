@@ -57,7 +57,7 @@ $feed-padding: 10px;
 
 .home {
   width: 100vw;
-  height: calc(100% - #{$header-height});
+  height: calc(100% - #{$header-height + $footer-height});
   overflow: scroll;
   .news-feed {
     margin-bottom: calc(#{$footer-height + $feed-margin + $feed-padding});
