@@ -75,10 +75,11 @@ export default defineComponent({
     const bodyRef: Ref<string> = ref('');
     const roomLengthRef: Ref<number> = ref(0);
     const chatsReact: Chat[] = reactive<Chat[]>([]);
+    const roomName = titleRef.value.substr(0, 10) + '...';
     const socket = reactive<SocketIOClient.Socket>(
       io(
         `
-        ${process.env.VUE_APP_CHAT_PROTCOL}://${process.env.VUE_APP_CHAT_WS}?room=${titleRef.value}
+        ${process.env.VUE_APP_CHAT_PROTCOL}://${process.env.VUE_APP_CHAT_WS}?room=${roomName}
       `.trim()
       )
     );
