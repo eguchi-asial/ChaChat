@@ -1,5 +1,5 @@
 <template>
-  <div class="quickmatch">
+  <div class="debatefeed">
     <div class="chat-items">
       <h2 class="room-length">{{ title }}({{ roomLength }}人)</h2>
       <a @click="showWEB">WEBで詳しく見る >></a>
@@ -49,7 +49,10 @@ export default defineComponent({
     const titleRef: Ref<string> = ref('');
     const pTitle: string | string[] = router.currentRoute.value.params['title'];
     titleRef.value = Array.isArray(pTitle) ? pTitle[0] : pTitle;
-    if (!titleRef.value) router.replace('/');
+    if (!titleRef.value) {
+      router.replace('/');
+      return;
+    }
 
     // link
     const linkRef: Ref<string> = ref('');
@@ -178,9 +181,10 @@ export default defineComponent({
 });
 </script>
 <style scoped lang="scss">
-.quickmatch {
+.debatefeed {
   width: 100%;
   height: calc(100% - #{$header-height + $footer-height});
+  margin-bottom: $footer-height;
   overflow: scroll;
 
   .room-length {
