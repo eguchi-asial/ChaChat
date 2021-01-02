@@ -70,7 +70,7 @@ export default defineComponent({
         throw new Error('Not Found FeedItem.');
       });
     };
-    const onShowDebate = (selectedFeed: { title: string; link: string }) => {
+    const onShowDebate = (selectedFeed: FeedItem) => {
       router.push({
         name: 'DebateFeed',
         params: { title: selectedFeed.title, link: selectedFeed.link }

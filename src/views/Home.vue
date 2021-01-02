@@ -9,6 +9,7 @@ import { defineComponent, onMounted } from 'vue';
 import { sendEvent } from '@/lib/analytics';
 import Feeds from '@/components/Feeds.vue';
 import router from '@/router';
+import FeedItem from '@/types/feedItem';
 
 export default defineComponent({
   name: 'Home',
@@ -19,7 +20,7 @@ export default defineComponent({
     onMounted(async () => {
       sendEvent('showHome');
     });
-    const onShowDebate = (selectedFeed: { title: string; link: string }) => {
+    const onShowDebate = (selectedFeed: FeedItem) => {
       router.push({
         name: 'DebateFeed',
         params: { title: selectedFeed.title, link: selectedFeed.link }

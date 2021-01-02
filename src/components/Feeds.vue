@@ -14,6 +14,7 @@
 </template>
 
 <script lang="ts">
+import FeedItem from '@/types/feedItem';
 import { computed, defineComponent, SetupContext } from 'vue';
 import { useStore } from 'vuex';
 
@@ -30,11 +31,8 @@ export default defineComponent({
         //
       }
     });
-    const emitClickFeedItem = (news: { title: string; link: string }) => {
-      context.emit('click-feed-item', {
-        title: news.title,
-        link: news.link
-      });
+    const emitClickFeedItem = (news: FeedItem) => {
+      context.emit('click-feed-item', news);
     };
 
     return {
