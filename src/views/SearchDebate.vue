@@ -3,16 +3,8 @@
     <h1>ディベート一覧</h1>
     <div class="rooms">
       <div v-if="rooms.length === 0">
-        <p>現在チャットルームはありません</p>
+        <p>現在ディベートはありません</p>
         <p>以下からはじめましょう</p>
-        <div class="buttons">
-          <div class="button quickmatch">
-            <button @click="moveQuickMatch">クイックディベート</button>
-          </div>
-          <div class="button create">
-            <button @click="createRoom">ディベートルームを作る</button>
-          </div>
-        </div>
       </div>
       <div v-else>
         <ul>
@@ -35,11 +27,14 @@ import { defineComponent, onMounted, reactive, Ref, ref } from 'vue';
 import io from 'socket.io-client';
 import router from '@/router';
 import { sendEvent } from '@/lib/analytics';
+import { useStore } from 'vuex';
+import FeedItem from '@/types/feedItem';
 
 export default defineComponent({
-  name: 'SearchChatRooms',
+  name: 'SearchDebate',
   components: {},
   setup() {
+    const store = useStore();
     const roomsRef: Ref<Array<string>> = ref<Array<string>>([]);
     const socket = reactive<SocketIOClient.Socket>(
       io(
@@ -60,30 +55,21 @@ export default defineComponent({
     });
 
     const joinRoom = (roomName: string) => {
-      router.push({
-        name: 'MyChatRoom',
-        params: { roomName }
+      const feedItems: FeedItem[] = store.getters['newsFeed'];
+      let link = '';
+      feedItems.map(feed => {
+        if (feed.title.startsWith(roomName.substr(0, 10))) {
+          link = feed.link;
+        }
       });
-    };
-    const moveQuickMatch = () => {
       router.push({
-        name: 'QuickMatch'
+        name: 'DebateFeed',
+        params: { title: roomName, link }
       });
-    };
-    const createRoom = () => {
-      const roomName = prompt('チャットルームの名前を決めてください');
-      if (roomName) {
-        router.push({
-          name: 'MyChatRoom',
-          params: { roomName }
-        });
-      }
     };
     return {
       rooms: roomsRef,
-      joinRoom,
-      moveQuickMatch,
-      createRoom
+      joinRoom
     };
   }
 });
@@ -96,24 +82,6 @@ export default defineComponent({
 <style scoped lang="scss">
 .searchchatrooms {
   width: 100%;
-  height: calc(100% - #{$header-height});
-
-  .buttons {
-    width: 100%;
-    display: flex;
-    flex-direction: column;
-    justify-content: center;
-
-    .button {
-      button {
-        min-width: 250px;
-        height: auto;
-        font-size: 18px;
-        font-weight: bold;
-        margin: 25px;
-        padding: 10px;
-      }
-    }
-  }
+  height: calc(100% - #{$header-height + $footer-height});
 }
 </style>
