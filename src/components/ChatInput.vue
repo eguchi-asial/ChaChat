@@ -20,13 +20,6 @@
       >
         {{ bodyModel || '120文字まで' }}
       </div>
-      <span
-        class="material-icons"
-        @click="emitSend"
-        :disabled="bodyModel.length === 0"
-      >
-        send
-      </span>
     </div>
     <div v-if="isShowPreviewRef" class="preview">
       <div class="modal">
@@ -96,15 +89,14 @@ export default defineComponent({
     const decideBody = (val: string): void => {
       isShowTextModalRef.value = false;
       bodyModel.value = val;
-    };
-
-    const emitSend = (): void => {
-      context.emit('send-chat', {
-        name: nameModel.value,
-        body: bodyModel.value,
-        type: 'chat'
-      });
-      bodyModel.value = '';
+      if (val.length > 0) {
+        context.emit('send-chat', {
+          name: nameModel.value,
+          body: val,
+          type: 'chat'
+        });
+        bodyModel.value = '';
+      }
     };
 
     const emitImage = (): void => {
@@ -172,7 +164,6 @@ export default defineComponent({
       isShowTextModalRef,
       dummyImageInputRef,
       decideBody,
-      emitSend,
       emitImage,
       changeImageFile,
       showSelectImageInput

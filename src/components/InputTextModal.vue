@@ -1,15 +1,16 @@
 <template>
   <div class="input-text-modal">
     <textarea
+      ref="inputBody"
       v-model.trim="bodyModel"
       maxlength="120"
       placeholder="120文字まで"
     />
-    <div class="decide" @click="emitSend">決定</div>
+    <div class="decide" @click="emitSend">送信</div>
   </div>
 </template>
 <script lang="ts">
-import { computed, defineComponent, onMounted, ref, SetupContext } from 'vue';
+import { defineComponent, onMounted, ref, SetupContext } from 'vue';
 
 type Props = {
   body: string;
@@ -25,10 +26,12 @@ export default defineComponent({
   name: 'InputTextModal',
   emits: ['decide-body'],
   setup(props: Props, context: SetupContext) {
+    const inputBody = ref<HTMLInputElement>();
     const bodyModel = ref<string>('');
     // propsがあるならdataに突っ込む
     onMounted(() => {
       bodyModel.value = props.body;
+      inputBody.value?.focus();
     });
 
     const emitSend = (): void => {
@@ -37,6 +40,7 @@ export default defineComponent({
     };
 
     return {
+      inputBody,
       bodyModel,
       emitSend
     };
@@ -45,7 +49,7 @@ export default defineComponent({
 </script>
 <style scoped lang="scss">
 .input-text-modal {
-  height: 100vh;
+  height: 100%;
   position: absolute;
   left: 0;
   top: 0;

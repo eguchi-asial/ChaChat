@@ -56,15 +56,16 @@ export default defineComponent({
 
     const joinRoom = (roomName: string) => {
       const feedItems: FeedItem[] = store.getters['newsFeed'];
-      let link = '';
       feedItems.map(feed => {
         if (feed.title.startsWith(roomName.substr(0, 10))) {
-          link = feed.link;
+          const debateFeed = feed;
+          router.push({
+            name: 'DebateFeed',
+            params: { title: debateFeed.title, link: debateFeed.link }
+          });
+          return;
         }
-      });
-      router.push({
-        name: 'DebateFeed',
-        params: { title: roomName, link }
+        throw new Error('Not Found FeedItem.');
       });
     };
     return {

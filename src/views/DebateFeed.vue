@@ -184,7 +184,6 @@ export default defineComponent({
 .debatefeed {
   width: 100%;
   height: calc(100% - #{$header-height + $footer-height});
-  margin-bottom: $footer-height;
   overflow: scroll;
 
   .room-length {
