@@ -5,6 +5,7 @@
       <div v-if="rooms.length === 0">
         <p>現在ディベートはありません</p>
         <p>以下からはじめましょう</p>
+        <feeds-view @click-feed-item="onShowDebate" />
       </div>
       <div v-else>
         <ul>
@@ -29,10 +30,11 @@ import router from '@/router';
 import { sendEvent } from '@/lib/analytics';
 import { useStore } from 'vuex';
 import FeedItem from '@/types/feedItem';
+import FeedsView from '@/components/Feeds.vue';
 
 export default defineComponent({
   name: 'SearchDebate',
-  components: {},
+  components: { FeedsView },
   setup() {
     const store = useStore();
     const roomsRef: Ref<Array<string>> = ref<Array<string>>([]);
@@ -68,9 +70,16 @@ export default defineComponent({
         throw new Error('Not Found FeedItem.');
       });
     };
+    const onShowDebate = (selectedFeed: { title: string; link: string }) => {
+      router.push({
+        name: 'DebateFeed',
+        params: { title: selectedFeed.title, link: selectedFeed.link }
+      });
+    };
     return {
       rooms: roomsRef,
-      joinRoom
+      joinRoom,
+      onShowDebate
     };
   }
 });
@@ -84,5 +93,6 @@ export default defineComponent({
 .searchchatrooms {
   width: 100%;
   height: calc(100% - #{$header-height + $footer-height});
+  overflow: scroll;
 }
 </style>
