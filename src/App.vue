@@ -1,9 +1,9 @@
 <template>
   <div id="app">
     <div id="nav">
-      <router-link to="/">Feed</router-link> |
-      <router-link to="/search">Debate</router-link> |
-      <router-link to="/about">About</router-link>
+      <router-link to="/">速報</router-link> |
+      <router-link to="/search">討論</router-link> |
+      <router-link to="/about">このアプリについて</router-link>
     </div>
     <router-view />
     <div id="footer">
@@ -31,6 +31,7 @@ body {
     'Hiragino Sans', Meiryo, sans-serif;
   background: url('assets/images/japanese-bg.png');
   background-size: contain;
+  color: $normal-color;
 }
 a {
   &:hover {
@@ -50,7 +51,6 @@ li {
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
   text-align: center;
-  color: #2c3e50;
   width: 100%;
   height: 100%;
 

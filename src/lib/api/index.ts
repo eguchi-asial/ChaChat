@@ -1,4 +1,4 @@
-import * as feedApi from './newsFeed';
+import * as feedApi from './feed';
 import axios, { AxiosRequestConfig } from 'axios';
 
 axios.interceptors.request.use((config: AxiosRequestConfig) => {

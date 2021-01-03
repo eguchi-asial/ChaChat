@@ -3,7 +3,7 @@
     <h1>ディベート一覧</h1>
     <div class="rooms">
       <div v-if="rooms.length === 0">
-        <p>現在ディベートはありません</p>
+        <p>現在討論はありません</p>
         <p>以下からはじめましょう</p>
         <feeds-view @click-feed-item="onShowDebate" />
       </div>
