@@ -1,5 +1,5 @@
 <template>
-  <div class="home">
+  <div class="feed-list">
     <feeds @click-feed-item="onShowDebate" />
   </div>
 </template>
@@ -12,13 +12,13 @@ import router from '@/router';
 import FeedItem from '@/types/feedItem';
 
 export default defineComponent({
-  name: 'Home',
+  name: 'FeedList',
   components: {
     Feeds
   },
   setup() {
     onMounted(async () => {
-      sendEvent('showHome');
+      sendEvent('showFeedList');
     });
     const onShowDebate = (selectedFeed: FeedItem) => {
       router.push({
@@ -33,7 +33,7 @@ export default defineComponent({
 });
 </script>
 <style scoped lang="scss">
-.home {
+.feed-list {
   width: 100vw;
   height: calc(100% - #{$header-height + $footer-height});
   overflow: scroll;

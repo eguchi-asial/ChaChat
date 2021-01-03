@@ -75,6 +75,7 @@ export default defineComponent({
   margin: 10px;
   border: solid 1px;
   overflow: scroll;
+  background: $app-bgcolor;
 
   .message {
     text-align: left;

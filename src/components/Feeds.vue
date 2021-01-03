@@ -2,12 +2,14 @@
   <div class="news-feed">
     <ul class="feeds">
       <li
-        class="feed"
+        class="feed-wrapper"
         v-for="(news, index) in feed"
         :key="index"
         @click="emitClickFeedItem(news)"
       >
-        <p>{{ news.title }}</p>
+        <div class="feed">
+          <p>{{ news.title }}</p>
+        </div>
       </li>
     </ul>
   </div>
@@ -52,28 +54,36 @@ $feed-padding: 10px;
     flex-wrap: wrap;
     justify-content: space-evenly;
 
-    .feed {
-      display: flex;
-      justify-content: center;
-      align-items: center;
-      overflow: hidden;
-      margin: $feed-margin;
-      padding: $feed-padding;
-      box-sizing: content-box;
-      background: $wood;
-      box-shadow: 5px 5px 10px;
-      border: 1px solid #000;
-      width: 120px;
-      height: 100px;
+    .feed-wrapper {
+      margin-top: 30px;
+      position: relative;
 
-      p {
-        font-weight: bold;
-        font-size: 14px;
-        text-align: left;
-        display: -webkit-box;
-        -webkit-box-orient: vertical;
-        -webkit-line-clamp: 3;
+      .feed {
+        position: relative;
+        display: flex;
+        justify-content: center;
+        align-items: center;
         overflow: hidden;
+        padding: $feed-padding;
+        box-sizing: content-box;
+        background: $wood;
+        box-shadow: 5px 5px 5px;
+        width: 120px;
+        height: 100px;
+        border-radius: 5px 0 5px 0;
+
+        p {
+          background: url('../assets/images/japanese-paper.jpg');
+          background-size: contain;
+          padding: 10px 10px 3px 10px;
+          font-weight: bold;
+          font-size: 14px;
+          text-align: left;
+          display: -webkit-box;
+          -webkit-box-orient: vertical;
+          -webkit-line-clamp: 3;
+          overflow: hidden;
+        }
       }
     }
   }

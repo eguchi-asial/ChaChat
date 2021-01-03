@@ -1,7 +1,7 @@
 <template>
   <div id="app">
     <div id="nav">
-      <router-link to="/">Home</router-link> |
+      <router-link to="/">Feed</router-link> |
       <router-link to="/search">Debate</router-link> |
       <router-link to="/about">About</router-link>
     </div>
@@ -29,7 +29,8 @@ export default defineComponent({
 body {
   font-family: 'Helvetica Neue', Arial, 'Hiragino Kaku Gothic ProN',
     'Hiragino Sans', Meiryo, sans-serif;
-  background: $app-bgcolor;
+  background: url('assets/images/japanese-bg.png');
+  background-size: contain;
 }
 a {
   &:hover {

@@ -1,13 +1,13 @@
 import { createRouter, createWebHistory, RouteRecordRaw } from 'vue-router';
-import Home from '../views/Home.vue';
+import FeedList from '../views/FeedList.vue';
 import SearchDebate from '../views/SearchDebate.vue';
 import DebateFeed from '../views/DebateFeed.vue';
 
 const routes: Array<RouteRecordRaw> = [
   {
     path: '/',
-    name: 'Home',
-    component: Home
+    name: 'FeedList',
+    component: FeedList
   },
   {
     path: '/search',
