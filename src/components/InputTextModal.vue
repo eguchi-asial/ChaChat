@@ -1,12 +1,15 @@
 <template>
   <div class="input-text-modal">
+    <div class="buttons">
+      <div class="cancel" @click="emitCancel">キャンセル</div>
+      <div class="decide" @click="emitSend">送信</div>
+    </div>
     <textarea
       ref="inputBody"
       v-model.trim="bodyModel"
       maxlength="120"
       placeholder="120文字まで"
     />
-    <div class="decide" @click="emitSend">送信</div>
   </div>
 </template>
 <script lang="ts">
@@ -34,6 +37,11 @@ export default defineComponent({
       inputBody.value?.focus();
     });
 
+    const emitCancel = (): void => {
+      context.emit('cancel-body');
+      bodyModel.value = '';
+    };
+
     const emitSend = (): void => {
       context.emit('decide-body', bodyModel.value);
       bodyModel.value = '';
@@ -42,6 +50,7 @@ export default defineComponent({
     return {
       inputBody,
       bodyModel,
+      emitCancel,
       emitSend
     };
   }
@@ -59,22 +68,45 @@ export default defineComponent({
   z-index: 99999;
 
   textarea {
+    position: absolute;
+    bottom: 0;
+    left: 0;
     width: 100%;
     height: 90%;
     padding: 10px;
     z-index: 99999;
   }
-  .decide {
+  .buttons {
     width: 100%;
     height: 10%;
-    background: $decide;
-    color: #fff;
     z-index: 99999;
     position: absolute;
-    bottom: 0;
+    top: 0;
     display: flex;
-    justify-content: center;
-    align-items: center;
+    justify-content: space-evenly;
+    background: #fff;
+
+    .cancel {
+      width: 40%;
+      height: 100%;
+      background: $cancel-bgcolor;
+      font-size: 14px;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+    }
+
+    .decide {
+      width: 60%;
+      height: 100%;
+      background: $decide-bgcolor;
+      font-weight: bold;
+      font-size: 18px;
+      color: #fff;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+    }
   }
 }
 </style>

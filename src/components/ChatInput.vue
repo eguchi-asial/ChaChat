@@ -11,15 +11,9 @@
       <span class="material-icons" @click="showSelectImageInput">
         add_photo_alternate
       </span>
-    </div>
-    <div class="message">
-      <div
-        class="text-modal"
-        :class="{ placeholder: !bodyModel }"
-        @click="isShowTextModalRef = true"
-      >
-        {{ bodyModel || '120文字まで' }}
-      </div>
+      <span class="material-icons" @click="isShowTextModalRef = true">
+        comment
+      </span>
     </div>
     <div v-if="isShowPreviewRef" class="preview">
       <div class="modal">
@@ -40,6 +34,7 @@
     v-if="isShowTextModalRef"
     class="input-text-modal"
     :body="bodyModel"
+    @cancel-body="cancelBody"
     @decide-body="decideBody"
   />
 </template>
@@ -85,6 +80,10 @@ export default defineComponent({
     const isShowPreviewRef = ref<boolean>(false);
 
     const isShowTextModalRef = ref<boolean>(false);
+
+    const cancelBody = (): void => {
+      isShowTextModalRef.value = false;
+    };
 
     const decideBody = (val: string): void => {
       isShowTextModalRef.value = false;
@@ -163,6 +162,7 @@ export default defineComponent({
       isShowPreviewRef,
       isShowTextModalRef,
       dummyImageInputRef,
+      cancelBody,
       decideBody,
       emitImage,
       changeImageFile,
@@ -172,6 +172,13 @@ export default defineComponent({
 });
 </script>
 <style scoped lang="scss">
+$icon-size: 24px;
+.material-icons {
+  width: $icon-size;
+  height: $icon-size;
+  font-size: $icon-size;
+}
+
 .input-area {
   margin: 10px;
   text-align: left;
@@ -184,31 +191,11 @@ export default defineComponent({
     margin-bottom: 5px;
 
     .name {
-      min-width: 28%;
+      width: calc(100% - (#{$icon-size} * 2));
       height: auto;
       min-height: 25px;
       background: $app-bgcolor;
       border: solid 1px #aaa;
-    }
-  }
-
-  .message {
-    height: 25%;
-    display: flex;
-    justify-content: left;
-    align-items: center;
-
-    .text-modal {
-      width: 100%;
-      height: 30px;
-      border: solid 1px;
-      padding: 2px;
-      white-space: pre-line;
-      overflow: scroll;
-
-      &.placeholder {
-        color: #aaa;
-      }
     }
   }
 }
