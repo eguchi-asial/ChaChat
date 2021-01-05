@@ -17,7 +17,7 @@
 </template>
 
 <script lang="ts">
-import { createTextVNode, defineComponent, onMounted, reactive } from 'vue';
+import { defineComponent, onMounted, reactive } from 'vue';
 import { sendEvent } from '@/lib/analytics';
 import Feeds from '@/components/Feeds.vue';
 import router from '@/router';

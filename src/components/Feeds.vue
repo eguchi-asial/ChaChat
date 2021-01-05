@@ -16,7 +16,6 @@
 </template>
 
 <script lang="ts">
-import { Category } from '@/types/category';
 import FeedItem from '@/types/feedItem';
 import { computed, defineComponent, SetupContext } from 'vue';
 import { useStore } from 'vuex';
@@ -28,28 +27,7 @@ export default defineComponent({
     const store = useStore();
     const feedReact = computed({
       get: () => {
-        const category = store.getters['feedCategory'];
-        let feeds = [];
-        switch (category) {
-          case Category.GOOGLE_NEWS:
-            feeds = store.getters['googleNewsFeed'];
-            break;
-          case Category.HATENA:
-            feeds = store.getters['hatenaFeed'];
-            break;
-          case Category.CLASSMETHOD:
-            feeds = store.getters['classmethodsFeed'];
-            break;
-          case Category.ITMEDIA:
-            feeds = store.getters['itmediaFeed'];
-            break;
-          case Category.WEBCREATOR:
-            feeds = store.getters['webcreatorFeed'];
-            break;
-          default:
-            feeds = store.getters['newsFeed'];
-        }
-        return feeds;
+        return store.getters['selectedCategoryFeed'];
       },
       set: () => {
         //

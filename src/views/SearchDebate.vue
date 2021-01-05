@@ -1,6 +1,6 @@
 <template>
   <div class="searchchatrooms">
-    <h1>ディベート一覧</h1>
+    <h1>討論一覧</h1>
     <div class="rooms">
       <div v-if="rooms.length === 0">
         <p>現在討論はありません</p>
@@ -57,7 +57,7 @@ export default defineComponent({
     });
 
     const joinRoom = (roomName: string) => {
-      const feedItems: FeedItem[] = store.getters['newsFeed'];
+      const feedItems: FeedItem[] = store.getters['selectedCategoryFeed'];
       feedItems.map(feed => {
         if (feed.title.startsWith(roomName.substr(0, 10))) {
           const debateFeed = feed;

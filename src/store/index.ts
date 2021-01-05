@@ -34,6 +34,29 @@ export default createStore({
     }
   },
   getters: {
+    selectedCategoryFeed(state): FeedItem[] {
+      let feedItems = [];
+      switch (state.category) {
+        case Category.GOOGLE_NEWS:
+          feedItems = state.googleNewsFeed?.items;
+          break;
+        case Category.HATENA:
+          feedItems = state.hatenaFeed?.items;
+          break;
+        case Category.CLASSMETHOD:
+          feedItems = state.classmethodFeed?.items;
+          break;
+        case Category.ITMEDIA:
+          feedItems = state.itmediaFeed?.items;
+          break;
+        case Category.WEBCREATOR:
+          feedItems = state.webcreatorFeed?.items;
+          break;
+        default:
+          feedItems = state.googleNewsFeed?.items;
+      }
+      return feedItems;
+    },
     googleNewsFeed(state): FeedItem[] {
       return state.googleNewsFeed?.items;
     },
