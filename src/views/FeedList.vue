@@ -1,6 +1,6 @@
 <template>
   <div class="feed-list">
-    <feed-categories @click-category="updateCategory" />
+    <feed-categories />
     <feeds @click-feed-item="onShowDebate" />
   </div>
 </template>
@@ -12,7 +12,6 @@ import Feeds from '@/components/Feeds.vue';
 import FeedCategories from '@/components/FeedCategories.vue';
 import router from '@/router';
 import FeedItem from '@/types/feedItem';
-import { useStore } from 'vuex';
 
 export default defineComponent({
   name: 'FeedList',
@@ -24,18 +23,13 @@ export default defineComponent({
     onMounted(async () => {
       sendEvent('showFeedList');
     });
-    const store = useStore();
     const onShowDebate = (selectedFeed: FeedItem) => {
       router.push({
         name: 'DebateFeed',
         params: { title: selectedFeed.title, link: selectedFeed.link }
       });
     };
-    const updateCategory = (selectedCategory: string) => {
-      store.commit('UPDATE_CATEGORY', selectedCategory);
-    };
     return {
-      updateCategory,
       onShowDebate
     };
   }

@@ -63,14 +63,11 @@ li {
   #nav {
     position: sticky;
     display: flex;
+    justify-content: space-evenly;
     top: 0;
     background: $header-bgcolor;
     height: $header-height;
     border-bottom: solid 2px #000;
-
-    div {
-      flex: 1;
-    }
 
     a {
       color: #999;
