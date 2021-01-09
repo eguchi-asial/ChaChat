@@ -5,7 +5,7 @@
         v-model.trim="nameModel"
         class="name"
         type="text"
-        placeholder="表示名(15文字)"
+        placeholder="コテハン"
         maxlength="15"
       />
       <span class="material-icons" @click="showSelectImageInput">

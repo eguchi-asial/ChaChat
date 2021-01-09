@@ -1,9 +1,15 @@
 <template>
   <div id="app">
     <div id="nav">
-      <router-link to="/">速報</router-link> |
-      <router-link to="/search">討論</router-link> |
-      <router-link to="/about">このアプリについて</router-link>
+      <div>
+        <router-link to="/">速報</router-link>
+      </div>
+      <div>
+        <router-link to="/search">討論</router-link>
+      </div>
+      <div>
+        <router-link to="/about">概要</router-link>
+      </div>
     </div>
     <router-view />
     <div id="footer">
@@ -56,10 +62,15 @@ li {
 
   #nav {
     position: sticky;
+    display: flex;
     top: 0;
     background: $header-bgcolor;
     height: $header-height;
     border-bottom: solid 2px #000;
+
+    div {
+      flex: 1;
+    }
 
     a {
       color: #999;
