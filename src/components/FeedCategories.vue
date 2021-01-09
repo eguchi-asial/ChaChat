@@ -3,6 +3,7 @@
     <ul class="category">
       <li
         class="item"
+        :class="{ selected: selectedFeedCategory === key }"
         @click="updateCategory(key)"
         v-for="key in categoriesReactive"
         :key="key"
@@ -15,7 +16,7 @@
 
 <script lang="ts">
 import { Category } from '@/types/category';
-import { defineComponent, reactive } from 'vue';
+import { computed, defineComponent, reactive } from 'vue';
 import { useStore } from 'vuex';
 
 export default defineComponent({
@@ -23,13 +24,24 @@ export default defineComponent({
   setup() {
     const store = useStore();
     const categoriesReactive = reactive(Object.keys(Category));
-
+    const selectedFeedCategory = computed({
+      get: () => {
+        const feedCategory = store.getters['feedCategory'];
+        return Object.keys(Category).find(
+          key => Category[key] === feedCategory
+        );
+      },
+      set: () => {
+        //
+      }
+    });
     const updateCategory = (selectedKey: string) => {
       store.commit('UPDATE_CATEGORY', Category[selectedKey]);
     };
 
     return {
       categoriesReactive,
+      selectedFeedCategory: selectedFeedCategory,
       updateCategory
     };
   }
@@ -60,6 +72,11 @@ export default defineComponent({
       border-right: dotted 1px $normal-color;
       min-width: 150px;
       word-break: break-all;
+
+      &.selected {
+        color: #fff;
+        background: $app-black-bgcolor;
+      }
     }
   }
 }

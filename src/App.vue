@@ -85,7 +85,7 @@ li {
   #footer {
     position: sticky;
     bottom: 0;
-    background: #000;
+    background: $app-black-bgcolor;
     height: $footer-height;
 
     .copyright {
