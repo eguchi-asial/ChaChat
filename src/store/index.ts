@@ -11,7 +11,8 @@ export default createStore({
     hatenaFeed: { items: [] },
     classmethodFeed: { items: [] },
     itmediaFeed: { items: [] },
-    webcreatorFeed: { items: [] }
+    webcreatorFeed: { items: [] },
+    zennFeed: { items: [] }
   },
   mutations: {
     UPDATE_GOOGLE_NEWS_FEED(state, feed) {
@@ -28,6 +29,9 @@ export default createStore({
     },
     UPDATE_WEBCREATOR_FEED(state, feed) {
       state.webcreatorFeed = feed;
+    },
+    UPDATE_ZENN_FEED(state, feed) {
+      state.zennFeed = feed;
     },
     UPDATE_CATEGORY(state, category) {
       state.category = category;
@@ -52,6 +56,9 @@ export default createStore({
         case Category.WEBCREATOR:
           feedItems = state.webcreatorFeed?.items;
           break;
+        case Category.ZENN:
+          feedItems = state.zennFeed?.items;
+          break;
         default:
           feedItems = state.googleNewsFeed?.items;
       }
@@ -72,6 +79,9 @@ export default createStore({
     webcreatorFeed(state) {
       return state.webcreatorFeed.items;
     },
+    zennFeed(state) {
+      return state.zennFeed.items;
+    },
     feedCategory(state) {
       return state.category;
     }
@@ -88,6 +98,8 @@ export default createStore({
       commit('UPDATE_ITMEDIA_FEED', itmediaFeed);
       const webCreatorFeed: Feed = await feedApi.fetchWebCreatorFeed();
       commit('UPDATE_WEBCREATOR_FEED', webCreatorFeed);
+      const zennFeed: Feed = await feedApi.fetchZennFeed();
+      commit('UPDATE_ZENN_FEED', zennFeed);
     }
   },
   modules: {}

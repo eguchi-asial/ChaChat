@@ -25,3 +25,8 @@ export async function fetchWebCreatorFeed() {
   const { data } = await axios.get(`/${Category.WEBCREATOR}`);
   return data;
 }
+
+export async function fetchZennFeed() {
+  const { data } = await axios.get(`/${Category.ZENN}`);
+  return data;
+}

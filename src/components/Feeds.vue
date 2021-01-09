@@ -1,6 +1,6 @@
 <template>
   <div class="news-feed">
-    <ul class="feeds">
+    <ul v-if="feed.length > 0" class="feeds">
       <li
         class="feed-wrapper"
         v-for="(news, index) in feed"
@@ -12,6 +12,9 @@
         </div>
       </li>
     </ul>
+    <div v-else class="no-feed">
+      速報は見つかりませんでした。
+    </div>
   </div>
 </template>
 
@@ -86,6 +89,12 @@ $feed-padding: 10px;
         }
       }
     }
+  }
+
+  .no-feed {
+    margin: 25% 10px;
+    font-weight: bold;
+    font-size: 20px;
   }
 }
 </style>
