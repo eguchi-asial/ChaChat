@@ -191,7 +191,7 @@ $icon-size: 24px;
     margin-bottom: 5px;
 
     .name {
-      width: calc(100% - (#{$icon-size} * 2));
+      width: calc(100% - (#{$icon-size} * 3));
       height: auto;
       min-height: 25px;
       background: $app-bgcolor;
