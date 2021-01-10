@@ -1,4 +1,5 @@
-import firebase from 'firebase';
+import firebase from 'firebase/app';
+import 'firebase/analytics';
 
 // https://firebase.google.com/docs/analytics/events?platform=web&hl=ja
 export function sendEvent(eventName: string, eventParams = {}) {
