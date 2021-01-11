@@ -83,7 +83,10 @@ export default defineComponent({
       io(
         `
         ${process.env.VUE_APP_CHAT_PROTCOL}://${process.env.VUE_APP_CHAT_WS}?room=${roomName}
-      `.trim()
+      `.trim(),
+        {
+          transports: ['websocket']
+        }
       )
     );
 
