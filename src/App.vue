@@ -43,6 +43,15 @@ a {
   &:hover {
     color: cornflowerblue !important;
   }
+
+  &.fake-link {
+    color: $normal-color;
+    text-decoration: none;
+    &:hover {
+      color: $normal-color;
+      text-decoration: none;
+    }
+  }
 }
 ul {
   margin: 0;

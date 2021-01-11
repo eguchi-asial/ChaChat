@@ -5,11 +5,10 @@
         class="item"
         :class="{ selected: selectedFeedCategory === key }"
         @click="updateCategory(key)"
-        v-for="(key, index) in categoriesReactive"
+        v-for="key in categoriesReactive"
         :key="key"
-        :tabindex="index + 1"
       >
-        {{ key }}
+        <a :href="`#${key}`" class="fake-link">{{ key }}</a>
       </li>
     </ul>
   </div>
@@ -77,6 +76,10 @@ export default defineComponent({
       &.selected {
         color: #fff;
         background: $app-black-bgcolor;
+
+        a {
+          color: #fff;
+        }
       }
     }
   }
