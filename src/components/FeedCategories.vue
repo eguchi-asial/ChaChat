@@ -8,7 +8,7 @@
         v-for="key in categoriesReactive"
         :key="key"
       >
-        {{ key }}
+        <a :href="`#${key}`" class="fake-link">{{ key }}</a>
       </li>
     </ul>
   </div>

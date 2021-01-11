@@ -7,9 +7,11 @@
         :key="index"
         @click="emitClickFeedItem(news)"
       >
-        <div class="feed">
-          <p>{{ news.title }}</p>
-        </div>
+        <a :href="`#${news.title}`" class="fake-link">
+          <div class="feed">
+            <p>{{ news.title }}</p>
+          </div>
+        </a>
       </li>
     </ul>
     <div v-else class="no-feed">

@@ -2,7 +2,7 @@
   <div class="debatefeed">
     <div class="chat-items">
       <h2 class="room-length">{{ title }}({{ roomLength }}人)</h2>
-      <a @click="showWEB">WEBで詳しく見る >></a>
+      <a :href="`#${title}`" @click="showWEB">WEBで詳しく見る >></a>
       <chat-messages :chats="chats" :is-auto-scroll="isAutoScroll" />
       <chat-input
         :name="name"
