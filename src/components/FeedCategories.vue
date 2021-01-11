@@ -5,10 +5,11 @@
         class="item"
         :class="{ selected: selectedFeedCategory === key }"
         @click="updateCategory(key)"
-        v-for="key in categoriesReactive"
+        v-for="(key, index) in categoriesReactive"
         :key="key"
+        :tabindex="index"
       >
-        <a :href="`#${key}`" class="fake-link">{{ key }}</a>
+        {{ key }}
       </li>
     </ul>
   </div>

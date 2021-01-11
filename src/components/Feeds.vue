@@ -6,12 +6,11 @@
         v-for="(news, index) in feed"
         :key="index"
         @click="emitClickFeedItem(news)"
+        :tabindex="index * 10"
       >
-        <a :href="`#${news.title}`" class="fake-link">
-          <div class="feed">
-            <p>{{ news.title }}</p>
-          </div>
-        </a>
+        <div class="feed">
+          <p>{{ news.title }}</p>
+        </div>
       </li>
     </ul>
     <div v-else class="no-feed">
