@@ -6,7 +6,7 @@
         v-for="(news, index) in feed"
         :key="index"
         @click="emitClickFeedItem(news)"
-        :tabindex="index * 10"
+        :tabindex="(index + 1) * 10"
       >
         <div class="feed">
           <p>{{ news.title }}</p>

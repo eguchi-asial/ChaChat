@@ -7,7 +7,7 @@
         @click="updateCategory(key)"
         v-for="(key, index) in categoriesReactive"
         :key="key"
-        :tabindex="index"
+        :tabindex="index + 1"
       >
         {{ key }}
       </li>
