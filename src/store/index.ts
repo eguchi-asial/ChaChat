@@ -11,7 +11,6 @@ export default createStore({
     hatenaFeed: { items: [] },
     classmethodFeed: { items: [] },
     itmediaFeed: { items: [] },
-    webcreatorFeed: { items: [] },
     zennFeed: { items: [] }
   },
   mutations: {
@@ -26,9 +25,6 @@ export default createStore({
     },
     UPDATE_ITMEDIA_FEED(state, feed) {
       state.itmediaFeed = feed;
-    },
-    UPDATE_WEBCREATOR_FEED(state, feed) {
-      state.webcreatorFeed = feed;
     },
     UPDATE_ZENN_FEED(state, feed) {
       state.zennFeed = feed;
@@ -53,9 +49,6 @@ export default createStore({
         case Category.ITMEDIA:
           feedItems = state.itmediaFeed?.items;
           break;
-        case Category.WEBCREATOR:
-          feedItems = state.webcreatorFeed?.items;
-          break;
         case Category.ZENN:
           feedItems = state.zennFeed?.items;
           break;
@@ -76,9 +69,6 @@ export default createStore({
     itmediaFeed(state) {
       return state.itmediaFeed.items;
     },
-    webcreatorFeed(state) {
-      return state.webcreatorFeed.items;
-    },
     zennFeed(state) {
       return state.zennFeed.items;
     },
@@ -96,8 +86,6 @@ export default createStore({
       commit('UPDATE_CLASSMETHOD_FEED', classmethodFeed);
       const itmediaFeed: Feed = await feedApi.fetchITMediaFeed();
       commit('UPDATE_ITMEDIA_FEED', itmediaFeed);
-      const webCreatorFeed: Feed = await feedApi.fetchWebCreatorFeed();
-      commit('UPDATE_WEBCREATOR_FEED', webCreatorFeed);
       const zennFeed: Feed = await feedApi.fetchZennFeed();
       commit('UPDATE_ZENN_FEED', zennFeed);
     }

@@ -2,19 +2,36 @@
   <div class="debatefeed">
     <div class="chat-items">
       <h2 class="room-length">{{ title }}({{ roomLength }}人)</h2>
-      <a :href="`#${title}`" @click="showWEB">WEBで詳しく見る >></a>
-      <chat-messages :chats="chats" :is-auto-scroll="isAutoScroll" />
-      <chat-input
-        :name="name"
-        :body="body"
-        @change-name="changedName"
-        @change-body="changedBody"
-        @send-chat="sendChat"
-        @send-image="sendImage"
-      />
+      <div v-if="!isShowDebate" class="article" v-html="content" />
+      <template v-else>
+        <chat-messages :chats="chats" :is-auto-scroll="isAutoScroll" />
+        <chat-input
+          :name="name"
+          :body="body"
+          @change-name="changedName"
+          @change-body="changedBody"
+          @send-chat="sendChat"
+          @send-image="sendImage"
+        />
+      </template>
     </div>
-    <div v-show="dispNewMessageInfo" class="information">
-      <div class="new-message">⬇︎</div>
+    <div class="debate-button">
+      <button
+        v-if="!isShowDebate"
+        class="debate-on"
+        @click="isShowDebate = true"
+      >
+        討論参加
+        <span class="material-icons">
+          comment
+        </span>
+      </button>
+      <button v-else class="debate-off" @click="isShowDebate = false">
+        退室
+        <span class="material-icons">
+          directions_run
+        </span>
+      </button>
     </div>
   </div>
 </template>
@@ -32,7 +49,6 @@ import {
 import Chat from '@/types/chat';
 import ChatMessages from '@/components/ChatMessages.vue';
 import ChatInput from '@/components/ChatInput.vue';
-import { sleep } from '@/lib/util';
 import moment from 'moment';
 import io from 'socket.io-client';
 import { sendEvent } from '@/lib/analytics';
@@ -54,22 +70,14 @@ export default defineComponent({
       return;
     }
 
-    // link
-    const linkRef: Ref<string> = ref('');
-    const pLink: string | string[] = router.currentRoute.value.params['link'];
-    linkRef.value = Array.isArray(pLink) ? pLink[0] : pLink;
+    // content
+    const contentRef: Ref<string> = ref('');
+    const pContent: string | string[] =
+      router.currentRoute.value.params['content'];
+    contentRef.value = Array.isArray(pContent) ? pContent[0] : pContent;
 
-    // 最新お知らせ通知 (活性化されたお知らせは5秒後にフラグを下げる)
-    const dispNewMessageInfoRef: Ref<boolean> = ref(false);
-    const isAutoScrollRef: Ref<boolean> = ref(false);
-    watch(dispNewMessageInfoRef, async () => {
-      await sleep(5);
-      dispNewMessageInfoRef.value = false;
-    });
-    watch(isAutoScrollRef, async () => {
-      await sleep(3);
-      isAutoScrollRef.value = false;
-    });
+    // debateを開くかどうか
+    const isShowDebate: Ref<boolean> = ref(false);
 
     /** チャット表示名 */
     const nameRef: Ref<string> = ref('');
@@ -105,9 +113,6 @@ export default defineComponent({
             postId: msg.postId,
             postedAt: msg.postedAt
           });
-          dispNewMessageInfoRef.value = true;
-          // auto scroll
-          isAutoScrollRef.value = true;
         });
         socket.on('room-length', (roomLength: number) => {
           roomLengthRef.value = roomLength;
@@ -160,15 +165,18 @@ export default defineComponent({
       });
     };
 
-    /** NEWS記事をwebで見る */
-    const showWEB = () => {
-      window.open(linkRef.value, '_blank');
-    };
+    // 監視
+    watch(
+      () => isShowDebate,
+      flg => {
+        console.log(flg);
+      }
+    );
 
     return {
       title: titleRef,
-      link: linkRef,
-      showWEB,
+      content: contentRef,
+      isShowDebate,
       chats: dispChats,
       name: nameRef,
       body: bodyRef,
@@ -176,8 +184,6 @@ export default defineComponent({
       changedBody,
       sendChat,
       sendImage,
-      dispNewMessageInfo: dispNewMessageInfoRef,
-      isAutoScroll: isAutoScrollRef,
       roomLength: roomLengthRef
     };
   }
@@ -198,22 +204,42 @@ export default defineComponent({
     width: 100%;
     height: 100%;
     overflow: hidden;
+
+    .article {
+      height: 100%;
+      overflow-y: scroll;
+      margin-bottom: $footer-height;
+    }
   }
 
-  .information {
+  .debate-button {
+    z-index: 19999;
     position: absolute;
-    bottom: 30%;
-    right: 5%;
+    bottom: 25px;
+    width: 100%;
 
-    .new-message {
-      height: 30px;
-      width: 30px;
-      background: red;
-      color: white;
+    button {
+      width: 100%;
+      height: 50px;
+      font-size: 16px;
+      font-weight: bold;
       display: flex;
+      border-radius: 0;
       justify-content: center;
       align-items: center;
-      border-radius: 50%;
+      color: #fff;
+
+      span {
+        padding: 5px;
+      }
+
+      &.debate-on {
+        background: $positive;
+      }
+
+      &.debate-off {
+        background: $negative;
+      }
     }
   }
 }

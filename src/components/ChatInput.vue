@@ -9,7 +9,7 @@
         maxlength="15"
       />
       <span class="material-icons" @click="showSelectImageInput">
-        add_photo_alternate
+        image
       </span>
       <span class="material-icons" @click="isShowTextModalRef = true">
         comment

@@ -7,6 +7,5 @@ export const Category: StringKeyObject = {
   HATENA: 'hatena-tech-feed',
   CLASSMETHOD: 'classmethod-tech-feed',
   ITMEDIA: 'itmedia-feed',
-  WEBCREATOR: 'webcreatorbox-feed',
   ZENN: 'zenn-feed'
 };

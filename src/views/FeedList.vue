@@ -26,7 +26,11 @@ export default defineComponent({
     const onShowDebate = (selectedFeed: FeedItem) => {
       router.push({
         name: 'DebateFeed',
-        params: { title: selectedFeed.title, link: selectedFeed.link }
+        params: {
+          title: selectedFeed.title,
+          link: selectedFeed.link,
+          content: selectedFeed.content
+        }
       });
     };
     return {
