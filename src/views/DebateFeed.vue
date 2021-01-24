@@ -2,6 +2,7 @@
   <div class="debatefeed">
     <div class="chat-items">
       <h2 class="room-length">{{ title }}({{ roomLength }}人)</h2>
+      <a :href="`#${title}`" @click="showWEB">WEBで詳しく見る >></a>
       <div v-if="!isShowDebate" class="article" v-html="content" />
       <template v-else>
         <chat-messages :chats="chats" :is-auto-scroll="isAutoScroll" />
@@ -69,6 +70,11 @@ export default defineComponent({
       router.replace('/');
       return;
     }
+
+    // link
+    const linkRef: Ref<string> = ref('');
+    const pLink: string | string[] = router.currentRoute.value.params['link'];
+    linkRef.value = Array.isArray(pLink) ? pLink[0] : pLink;
 
     // content
     const contentRef: Ref<string> = ref('');
@@ -165,6 +171,11 @@ export default defineComponent({
       });
     };
 
+    /** NEWS記事をwebで見る */
+    const showWEB = () => {
+      window.open(linkRef.value, '_blank');
+    };
+
     // 監視
     watch(
       () => isShowDebate,
@@ -175,6 +186,7 @@ export default defineComponent({
 
     return {
       title: titleRef,
+      link: linkRef,
       content: contentRef,
       isShowDebate,
       chats: dispChats,
@@ -182,6 +194,7 @@ export default defineComponent({
       body: bodyRef,
       changedName,
       changedBody,
+      showWEB,
       sendChat,
       sendImage,
       roomLength: roomLengthRef

@@ -63,7 +63,11 @@ export default defineComponent({
           const debateFeed = feed;
           router.push({
             name: 'DebateFeed',
-            params: { title: debateFeed.title, link: debateFeed.link }
+            params: {
+              title: debateFeed.title,
+              link: debateFeed.link,
+              content: debateFeed.content
+            }
           });
           return;
         }
@@ -73,7 +77,11 @@ export default defineComponent({
     const onShowDebate = (selectedFeed: FeedItem) => {
       router.push({
         name: 'DebateFeed',
-        params: { title: selectedFeed.title, link: selectedFeed.link }
+        params: {
+          title: selectedFeed.title,
+          link: selectedFeed.link,
+          content: selectedFeed.content
+        }
       });
     };
     return {
