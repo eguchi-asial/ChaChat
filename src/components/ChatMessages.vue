@@ -71,7 +71,7 @@ export default defineComponent({
 </script>
 <style scoped lang="scss">
 .messages {
-  height: 60%;
+  height: 55%;
   margin: 10px;
   border: solid 1px;
   overflow: scroll;

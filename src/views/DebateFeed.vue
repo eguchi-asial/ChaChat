@@ -14,6 +14,9 @@
           @send-chat="sendChat"
           @send-image="sendImage"
         />
+        <div v-show="dispNewMessageInfo" class="information">
+          <div class="new-message">⬇︎</div>
+        </div>
       </template>
     </div>
     <div class="debate-button">
@@ -54,6 +57,7 @@ import moment from 'moment';
 import io from 'socket.io-client';
 import { sendEvent } from '@/lib/analytics';
 import router from '@/router';
+import { sleep } from '@/lib/util';
 
 export default defineComponent({
   name: 'DebateFeed',
@@ -70,6 +74,18 @@ export default defineComponent({
       router.replace('/');
       return;
     }
+
+    // 最新お知らせ通知 (活性化されたお知らせは5秒後にフラグを下げる)
+    const dispNewMessageInfoRef: Ref<boolean> = ref(false);
+    const isAutoScrollRef: Ref<boolean> = ref(false);
+    watch(dispNewMessageInfoRef, async () => {
+      await sleep(5);
+      dispNewMessageInfoRef.value = false;
+    });
+    watch(isAutoScrollRef, async () => {
+      await sleep(3);
+      isAutoScrollRef.value = false;
+    });
 
     // link
     const linkRef: Ref<string> = ref('');
@@ -119,6 +135,9 @@ export default defineComponent({
             postId: msg.postId,
             postedAt: msg.postedAt
           });
+          dispNewMessageInfoRef.value = true;
+          // auto scroll
+          isAutoScrollRef.value = true;
         });
         socket.on('room-length', (roomLength: number) => {
           roomLengthRef.value = roomLength;
@@ -197,6 +216,8 @@ export default defineComponent({
       showWEB,
       sendChat,
       sendImage,
+      dispNewMessageInfo: dispNewMessageInfoRef,
+      isAutoScroll: isAutoScrollRef,
       roomLength: roomLengthRef
     };
   }
@@ -217,6 +238,7 @@ export default defineComponent({
     width: 100%;
     height: 100%;
     overflow: hidden;
+    margin-bottom: 30px;
 
     .article {
       height: 100%;
@@ -224,6 +246,22 @@ export default defineComponent({
       margin-bottom: $footer-height;
       border-top: 2px dashed;
       margin-top: 10px;
+    }
+  }
+
+  .information {
+    position: absolute;
+    bottom: 30%;
+    right: 5%;
+    .new-message {
+      height: 30px;
+      width: 30px;
+      background: red;
+      color: white;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      border-radius: 50%;
     }
   }
 
