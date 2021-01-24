@@ -39,6 +39,12 @@ body {
   background-size: contain;
   color: $normal-color;
 }
+
+img {
+  max-width: 100%;
+  height: auto;
+}
+
 a {
   &:hover {
     color: cornflowerblue !important;
