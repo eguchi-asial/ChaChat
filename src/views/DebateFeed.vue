@@ -222,6 +222,8 @@ export default defineComponent({
       height: 100%;
       overflow-y: scroll;
       margin-bottom: $footer-height;
+      border-top: 2px dashed;
+      margin-top: 10px;
     }
   }
 
