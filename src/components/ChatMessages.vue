@@ -57,10 +57,7 @@ export default defineComponent({
      * 表示用にChat配列を整形
      */
     const dispChats = computed(() => {
-      return props.chats.map((chat: Chat) => {
-        chat.name = chat.name ?? '名無しさん';
-        return chat;
-      });
+      return props.chats.map((chat: Chat) => chat);
     });
 
     return {

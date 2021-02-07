@@ -7,9 +7,7 @@
       <template v-else>
         <chat-messages :chats="chats" :is-auto-scroll="isAutoScroll" />
         <chat-input
-          :name="name"
           :body="body"
-          @change-name="changedName"
           @change-body="changedBody"
           @send-chat="sendChat"
           @send-image="sendImage"
@@ -101,9 +99,6 @@ export default defineComponent({
     // debateを開くかどうか
     const isShowDebate: Ref<boolean> = ref(false);
 
-    /** チャット表示名 */
-    const nameRef: Ref<string> = ref('');
-
     /** チャット投稿メッセージ */
     const bodyRef: Ref<string> = ref('');
     const roomLengthRef: Ref<number> = ref(0);
@@ -129,7 +124,6 @@ export default defineComponent({
         /* サーバからpush受信したメッセージ */
         socket.on('receive-message', (msg: Chat) => {
           chatsReact.push({
-            name: msg.name,
             type: msg.type,
             body: msg.body,
             postId: msg.postId,
@@ -158,11 +152,6 @@ export default defineComponent({
         //
       }
     });
-
-    /** 表示名変更 */
-    const changedName = (changedName: string): void => {
-      nameRef.value = changedName;
-    };
 
     /** 本文変更 */
     const changedBody = (changedBody: string): void => {
@@ -209,9 +198,7 @@ export default defineComponent({
       content: contentRef,
       isShowDebate,
       chats: dispChats,
-      name: nameRef,
       body: bodyRef,
-      changedName,
       changedBody,
       showWEB,
       sendChat,

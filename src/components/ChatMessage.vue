@@ -1,8 +1,7 @@
 <template>
   <div class="message" :class="{ system: dispType === 'system' }">
     <div class="name">
-      {{ dispNo }}: {{ dispName }}
-      <small v-show="dispPostId">ID: {{ dispPostId }}</small>
+      {{ dispNo }}: {{ dispPostId }}
       <small v-show="dispPostedAt">( {{ dispPostedAt }} )</small>
     </div>
     <div v-if="dispMessageType" class="text">{{ dispBody }}</div>
@@ -16,7 +15,6 @@ import { computed, defineComponent } from 'vue';
 
 type Props = {
   no: number;
-  name: string;
   type: string;
   body: string;
   postId: string;
@@ -29,11 +27,6 @@ export default defineComponent({
       type: Number,
       required: true,
       default: 0
-    },
-    name: {
-      type: String,
-      required: false,
-      default: '名無しさん'
     },
     type: {
       type: String,
@@ -66,7 +59,6 @@ export default defineComponent({
     });
     return {
       dispNo: props.no,
-      dispName: props.name,
       dispType: props.type,
       dispBody: props.body,
       dispPostedAt: props.postedAt,

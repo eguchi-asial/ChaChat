@@ -1,18 +1,11 @@
 <template>
   <div class="input-area">
     <div class="upper">
-      <input
-        v-model.trim="nameModel"
-        class="name"
-        type="text"
-        placeholder="コテハン"
-        maxlength="15"
-      />
+      <div class="speak" @click="isShowTextModalRef = true">
+        ここをタップして発言しよう
+      </div>
       <span class="material-icons" @click="showSelectImageInput">
         image
-      </span>
-      <span class="material-icons" @click="isShowTextModalRef = true">
-        comment
       </span>
     </div>
     <div v-if="isShowPreviewRef" class="preview">
@@ -44,17 +37,11 @@ import Jimp from 'jimp';
 import InputTextModal from './InputTextModal.vue';
 
 type Props = {
-  name: string;
   body: string;
 };
 export default defineComponent({
   components: { InputTextModal },
   props: {
-    name: {
-      type: String,
-      required: false,
-      default: ''
-    },
     body: {
       type: String,
       required: false,
@@ -62,13 +49,8 @@ export default defineComponent({
     }
   },
   name: 'ChatInput',
-  emits: ['change-name', 'change-body', 'send-chat', 'send-image'],
+  emits: ['change-body', 'send-chat', 'send-image'],
   setup(props: Props, context: SetupContext) {
-    const nameModel = computed({
-      get: () => props.name,
-      set: changedValue => context.emit('change-name', changedValue)
-    });
-
     const bodyModel = computed({
       get: () => props.body,
       set: changedValue => context.emit('change-body', changedValue)
@@ -90,7 +72,6 @@ export default defineComponent({
       bodyModel.value = val;
       if (val.length > 0) {
         context.emit('send-chat', {
-          name: nameModel.value,
           body: val,
           type: 'chat'
         });
@@ -100,7 +81,6 @@ export default defineComponent({
 
     const emitImage = (): void => {
       context.emit('send-image', {
-        name: nameModel.value,
         body: sendImageFileRef.value,
         type: 'image'
       });
@@ -155,7 +135,6 @@ export default defineComponent({
     };
 
     return {
-      nameModel,
       bodyModel,
       sendImageFileRef,
       sendImageFileName,
@@ -190,7 +169,7 @@ $icon-size: 24px;
     min-height: 25px;
     margin-bottom: 5px;
 
-    .name {
+    .speak {
       width: calc(100% - (#{$icon-size} * 3));
       height: auto;
       min-height: 25px;
